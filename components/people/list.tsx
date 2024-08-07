@@ -13,9 +13,10 @@ import { IPeopleWithId } from "@/types/people";
 interface PeopleListProps {
   list: IPeopleWithId[];
   hasMore: boolean;
+  query: string;
 }
 
-const PeopleList = ({ list, hasMore }: PeopleListProps) => {
+const PeopleList = ({ list, hasMore, query }: PeopleListProps) => {
   const { ref, inView } = useInView();
   
   const [people, setPeople] = useState<IPeopleWithId[]>(list);
@@ -24,7 +25,7 @@ const PeopleList = ({ list, hasMore }: PeopleListProps) => {
   
   const loadMore = async () => {
     if (hasNext) {
-      const morePeople = await getPeople(pageNumber)
+      const morePeople = await getPeople({ page: +pageNumber, query })
       setPeople([...people, ...morePeople.results])
       setHasNext(morePeople.next !== null)
       setPageNumber((prev) => prev + 1);

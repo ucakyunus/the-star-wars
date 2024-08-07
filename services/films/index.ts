@@ -1,19 +1,22 @@
-'use server'
-
 import { getId, fetchData, filterFulfilled } from "@/utils/helper";
+import { getPeopleByUrls } from "@/services/people";
+import { getStarshipsByUrls } from "@/services/starships";
+import { getPlanetsByUrls } from "@/services/planets";
+import { getSpeciesByUrls } from "@/services/species";
+import { getVehiclesByUrls } from "@/services/vehicles";
 
-import { ISpecie } from "@/types/specie";
-import { IVehicle } from "@/types/vehicle";
-import { IStarship } from "@/types/starship";
-import { IPlanet } from "@/types/planet";
-import { IPeople } from "@/types/people";
 import { IFilm, IFilmDetail, IFilmResponse, IFilmWithId } from "@/types/film";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
-export const getFilms = async (page: number = 1) => {
+export const getFilms = async ({ page = 1, query }: { page: number, query?: string }) => {
   try {
-    const data = await fetchData<IFilmResponse>(`${BASE_URL}/films/?page=${page}`);
+    let url = `films/?page=${page}`;
+    
+    if (query) {
+      url = `films/?search=${query}&page=${page}`;
+    }
+    
+    const data = await fetchData<IFilmResponse>(url);
     const results = data.results?.map((film: IFilm) => ({
       ...film,
       id: getId(film.url)
@@ -35,49 +38,33 @@ export const getFilms = async (page: number = 1) => {
 };
 
 export const getFilm = async (id: string): Promise<IFilmDetail> => {
-  const data = await fetchData<IFilm>(`${BASE_URL}/films/${id}`);
+  const data = await fetchData<IFilm>(`films/${id}`);
   
-  const characters = await Promise.allSettled(data.characters.map(async (character: string | IPeople) => {
-    if (typeof character === 'object') return;
-    const id = getId(character);
-    const response = await fetchData<IPeople>(character);
-    return { id, name: response.name };
-  }));
-  
-  const planets = await Promise.allSettled(data.planets.map(async (planet: string | IPlanet) => {
-    if (typeof planet === 'object') return;
-    const id = getId(planet);
-    const response = await fetchData<IPlanet>(planet);
-    return { id, name: response.name };
-  }));
-  
-  const species = await Promise.allSettled(data.species.map(async (specie: string | ISpecie) => {
-    if (typeof specie === 'object') return;
-    const id = getId(specie);
-    const response = await fetchData<ISpecie>(specie);
-    return { id, name: response.name };
-  }));
-  
-  const starships = await Promise.allSettled(data.starships.map(async (starship: string | IStarship) => {
-    if (typeof starship === 'object') return;
-    const id = getId(starship);
-    const response = await fetchData<IStarship>(starship);
-    return { id, name: response.name };
-  }));
-  
-  const vehicles = await Promise.allSettled(data.vehicles.map(async (vehicle: string | IVehicle) => {
-    if (typeof vehicle === 'object') return;
-    const id = getId(vehicle);
-    const response = await fetchData<IVehicle>(vehicle);
-    return { id, name: response.name };
-  }));
+  const [characters, planets, species, starships, vehicles] = await Promise.all([
+    getPeopleByUrls(data.characters),
+    getPlanetsByUrls(data.planets),
+    getSpeciesByUrls(data.species),
+    getStarshipsByUrls(data.starships),
+    getVehiclesByUrls(data.vehicles)
+  ]);
   
   return {
     ...data,
-    characters: filterFulfilled(characters),
-    planets: filterFulfilled(planets),
-    species: filterFulfilled(species),
-    starships: filterFulfilled(starships),
-    vehicles: filterFulfilled(vehicles)
+    characters,
+    planets,
+    species,
+    starships,
+    vehicles
   } as IFilmDetail;
 };
+
+export const getFilmsByUrls = async (urls: string[] | IFilm[]) => {
+  const films = await Promise.allSettled(urls.map(async (url: string | IFilm) => {
+    if (typeof url === 'object') return;
+    const id = getId(url);
+    const response = await fetchData<IFilm>(url);
+    return { id, title: response.title };
+  }));
+  
+  return filterFulfilled(films);
+}

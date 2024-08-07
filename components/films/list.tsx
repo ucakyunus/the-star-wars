@@ -13,9 +13,10 @@ import Box from "@mui/material/Box";
 interface FilmsListProps {
   list: IFilmWithId[];
   hasMore: boolean;
+  query: string;
 }
 
-const FilmsList = ({ list, hasMore }: FilmsListProps) => {
+const FilmsList = ({ list, hasMore, query }: FilmsListProps) => {
   const { ref, inView } = useInView();
   
   const [films, setFilms] = useState<IFilmWithId[]>(list);
@@ -24,7 +25,7 @@ const FilmsList = ({ list, hasMore }: FilmsListProps) => {
   
   const loadMore = async () => {
     if (hasNext) {
-      const moreFilms = await getFilms(pageNumber)
+      const moreFilms = await getFilms({ page: +pageNumber, query })
       setFilms([...films, ...moreFilms.results])
       setHasNext(moreFilms.next !== null)
       setPageNumber((prev) => prev + 1);

@@ -13,9 +13,10 @@ import { IStarshipWithId } from "@/types/starship";
 interface StarshipListProps {
   list: IStarshipWithId[];
   hasMore: boolean;
+  query: string;
 }
 
-const StarshipList = ({ list, hasMore }: StarshipListProps) => {
+const StarshipList = ({ list, hasMore, query }: StarshipListProps) => {
   const { ref, inView } = useInView();
   
   const [starships, setStarships] = useState<IStarshipWithId[]>(list);
@@ -24,7 +25,7 @@ const StarshipList = ({ list, hasMore }: StarshipListProps) => {
   
   const loadMore = async () => {
     if (hasNext) {
-      const moreStarships = await getStarships(pageNumber)
+      const moreStarships = await getStarships({ page: +pageNumber, query })
       setStarships([...starships, ...moreStarships.results])
       setHasNext(moreStarships.next !== null)
       setPageNumber((prev) => prev + 1);

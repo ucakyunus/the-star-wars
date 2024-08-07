@@ -32,7 +32,7 @@ export interface IPeopleResponse {
 }
 
 export interface IPeopleDetail extends IPeople {
-  films: {id: string; title: string}[];
+  films: { id: string; title: string; }[];
   species: { id: string; name: string; }[];
   starships: { id: string; name: string; }[];
   vehicles: { id: string; name: string; }[];

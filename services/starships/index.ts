@@ -1,16 +1,19 @@
-import {fetchData, filterFulfilled, getId} from "@/utils/helper";
+import { fetchData, filterFulfilled, getId } from "@/utils/helper";
+import { getFilmsByUrls } from "@/services/films";
+import { getPeopleByUrls } from "@/services/people";
 
 import { IStarship, IStarshipDetail, IStarshipResponse, IStarshipWithId } from "@/types/starship";
-import { IFilm } from "@/types/film";
-import { IPeople } from "@/types/people";
 
-const BASE_URL= process.env.NEXT_PUBLIC_BASE_URL
 
-export const getStarships = async (page: number = 1) => {
+export const getStarships = async ({ page = 1, query }: { page: number, query?: string }) => {
   try {
-    const data = await fetchData<IStarshipResponse>(`${BASE_URL}/starships/?page=${page}`);
+    let url = `starships/?page=${page}`;
     
-    console.log('data', data);
+    if(query) {
+      url = `starships/?search=${query}&page=${page}`;
+    }
+    
+    const data = await fetchData<IStarshipResponse>(url);
     
     const results = data.results.map((starship: IStarship) => ({
       ...starship,
@@ -31,25 +34,27 @@ export const getStarships = async (page: number = 1) => {
 
 
 export const getStarship = async (id: string): Promise<IStarshipDetail> => {
-  const data = await fetchData<IStarship>(`${BASE_URL}/starships/${id}`);
+  const data = await fetchData<IStarship>(`starships/${id}`);
   
-  const films = await Promise.allSettled(data.films.map(async (film: string | IFilm) => {
-    if (typeof film === 'object') return;
-    const id = getId(film);
-    const response = await fetchData<IFilm>(film);
-    return { id, title: response.title };
-  }));
-  
-  const characters = await Promise.allSettled(data.pilots.map(async (character: string | IPeople) => {
-    if (typeof character === 'object') return;
-    const id = getId(character);
-    const response = await fetchData<IPeople>(character);
-    return { id, name: response.name };
-  }));
+  const [films, pilots] = await Promise.all([
+    getFilmsByUrls(data.films),
+    getPeopleByUrls(data.pilots)
+  ]);
   
   return {
     ...data,
-    films: filterFulfilled(films),
-    pilots: filterFulfilled(characters)
+    films,
+    pilots
   } as IStarshipDetail;
+}
+
+export const getStarshipsByUrls = async (urls: string[] | IStarship[]) => {
+  const starships = await Promise.allSettled(urls.map(async (url: string | IStarship) => {
+    if (typeof url === 'object') return;
+    const id = getId(url);
+    const response = await fetchData<IStarship>(url);
+    return { id, name: response.name };
+  }));
+  
+  return filterFulfilled(starships);
 }

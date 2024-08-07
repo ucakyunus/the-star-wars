@@ -1,3 +1,5 @@
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
+
 export const formatNumber = (number: number) => {
   return new Intl.NumberFormat('tr-TR').format(number);
 }
@@ -20,7 +22,14 @@ export const getId = (url: string): string => {
 
 export const fetchData = async <T>(url: string): Promise<T> => {
   try {
-    const response = await fetch(url);
+    const protocols = ["https://", "http://"];
+    const result = protocols.find(protocol => url.includes(protocol))
+    
+    let path = url;
+    if (!result) {
+      path = `${BASE_URL}/${url}`;
+    }
+    const response = await fetch(path);
     return await response.json();
   } catch (err) {
     console.error(err);

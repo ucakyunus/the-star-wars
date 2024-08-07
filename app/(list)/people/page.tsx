@@ -1,8 +1,18 @@
 import PeopleList from "@/components/people/list";
 import { getPeople } from "@/services/people";
 
-export default async function PeoplePage() {
-  const people = await getPeople();
+interface PeoplePageProps {
+  searchParams: {
+    query?: string;
+    page?: number;
+  }
+}
+
+export default async function PeoplePage({ searchParams }: PeoplePageProps) {
+  const query = searchParams?.query || '';
+  const page = searchParams?.page || 1;
   
-  return <PeopleList list={people.results} hasMore={!!people.next} />
+  const people = await getPeople({ query, page: +page });
+  
+  return <PeopleList list={people.results} hasMore={!!people.next} query={query} />
 }

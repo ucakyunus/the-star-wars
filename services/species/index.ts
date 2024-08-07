@@ -1,9 +1,8 @@
+import { fetchData, filterFulfilled, getId } from "@/utils/helper";
 import { ISpecie } from "@/types/specie";
 
-const BASE_URL = process.env.BASE_URL
-
 export const getSpecies = async () => {
-  const response = await fetch(`${BASE_URL}/species`);
+  const response = await fetch(`species`);
   
   const data = await response.json();
   
@@ -16,6 +15,17 @@ export const getSpecies = async () => {
 }
 
 export const getSpecie = async (id: string) => {
-  const response = await fetch(`${BASE_URL}/species/${id}`);
+  const response = await fetch(`species/${id}`);
   return await response.json();
+}
+
+export const getSpeciesByUrls = async (urls: string[] | ISpecie[]) => {
+  const species = await Promise.allSettled(urls.map(async (url: string | ISpecie) => {
+    if (typeof url === 'object') return;
+    const id = getId(url);
+    const response = await fetchData<ISpecie>(url);
+    return { id, name: response.name };
+  }));
+  
+  return filterFulfilled(species);
 }
