@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useState, useEffect } from "react";
+import { memo, useState, useEffect, useCallback } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -25,20 +25,20 @@ const List = ({ list, hasMore, query }: StarshipListProps) => {
   const [pageNumber, setPageNumber] = useState<number>(2);
   const [hasNext, setHasNext] = useState<boolean>(hasMore);
   
-  const loadMore = async () => {
+  const loadMore = useCallback(async () => {
     if (hasNext) {
       const moreStarships = await getStarships({ page: +pageNumber, query })
       setStarships([...starships, ...moreStarships.results])
       setHasNext(moreStarships.next !== null)
       setPageNumber((prev) => prev + 1);
     }
-  }
+  }, [pageNumber, hasNext, query, starships])
   
   useEffect(() => {
     if (inView) {
       loadMore()
     }
-  }, [inView])
+  }, [inView, loadMore])
   
   return (
     <>

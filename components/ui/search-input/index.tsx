@@ -9,24 +9,28 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import debounce from "@mui/utils/debounce";
 
+const debouncedHandleSearch = debounce((event: React.ChangeEvent<HTMLInputElement>, searchParams: URLSearchParams, pathname: string, replace: (url: string) => void) => {
+  const term = event.target.value;
+  const params = new URLSearchParams(searchParams);
+  if (term) {
+    params.set('query', term);
+  } else {
+    params.delete('query');
+  }
+  
+  replace(`${pathname}?${params.toString()}`);
+}, 500);
+
 const SearchInput = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
   
   const handleSearch = useCallback(
-    debounce((event: React.ChangeEvent<HTMLInputElement>) => {
-      const term = event.target.value;
-      const params = new URLSearchParams(searchParams);
-      if (term) {
-        params.set('query', term);
-      } else {
-        params.delete('query');
-      }
-      
-      replace(`${pathname}?${params.toString()}`);
-    }, 500),
-    []
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      debouncedHandleSearch(event, searchParams, pathname, replace);
+    },
+    [pathname, replace, searchParams]
   );
   
   return (

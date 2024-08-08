@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -24,20 +24,20 @@ const VehiclesList = ({ list, hasMore, query }: VehiclesListProps) => {
   const [pageNumber, setPageNumber] = useState<number>(2);
   const [hasNext, setHasNext] = useState<boolean>(hasMore);
   
-  const loadMore = async () => {
+  const loadMore = useCallback(async () => {
     if (hasNext) {
       const moreVehicles = await getVehicles({ page: +pageNumber, query })
       setVehicles([...vehicles, ...moreVehicles.results])
       setHasNext(moreVehicles.next !== null)
       setPageNumber((prev) => prev + 1);
     }
-  }
+  }, [hasNext, pageNumber, query, vehicles])
   
   useEffect(() => {
     if (inView) {
       loadMore()
     }
-  }, [inView])
+  }, [inView, loadMore])
   
   return (
     <>

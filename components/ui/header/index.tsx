@@ -63,8 +63,8 @@ const Header = () => {
               
                 <List sx={{ width: 250 }}>
                   {Object.values(navs).map((nav, index) => (
-                    <>
-                      <ListItem key={nav.href} disablePadding>
+                    <Box key={nav.href}>
+                      <ListItem disablePadding>
                         <Link href={nav.href} passHref>
                           <ListItemButton
                             onClick={() => {
@@ -76,7 +76,7 @@ const Header = () => {
                         </Link>
                       </ListItem>
                       <Divider />
-                    </>
+                    </Box>
                   ))}
                 </List>
               </Drawer>

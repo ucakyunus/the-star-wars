@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Container from "@mui/material/Container";
 import SearchInput from "@/components/ui/search-input";
 import Box from "@mui/material/Box";
@@ -14,9 +14,11 @@ const ListLayout = ({
       <Header />
       
       <Container sx={{ mb: 5 }}>
-        <Box sx={{ my: 5 }}>
-          <SearchInput />
-        </Box>
+        <Suspense>
+          <Box sx={{ my: 5 }}>
+            <SearchInput />
+          </Box>
+        </Suspense>
         
         {children}
       </Container>
