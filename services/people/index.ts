@@ -4,7 +4,7 @@ import { getStarshipsByUrls } from "@/services/starships";
 import { getSpeciesByUrls } from "@/services/species";
 import { getVehiclesByUrls } from "@/services/vehicles";
 
-import { IPeople, IPeopleDetail, IPeopleResponse, IPeopleWithId } from "@/types/people";
+import { IPerson, IPersonDetail, IPersonResponse, IPersonWithId } from "@/types/people";
 
 export const getPeople = async ({ page = 1, query }: { page: number, query?: string }) => {
   try {
@@ -14,12 +14,12 @@ export const getPeople = async ({ page = 1, query }: { page: number, query?: str
       url = `people/?search=${query}&page=${page}`;
     }
     
-    const data = await fetchData<IPeopleResponse>(url);
+    const data = await fetchData<IPersonResponse>(url);
     
-    const results = data.results.map((person: IPeople) => ({
+    const results = data.results.map((person: IPerson) => ({
       ...person,
       id: getId(person.url)
-    })) as IPeopleWithId[];
+    })) as IPersonWithId[];
     
     return {...data, results};
   } catch (err) {
@@ -33,8 +33,8 @@ export const getPeople = async ({ page = 1, query }: { page: number, query?: str
   }
 }
 
-export const getPerson = async (id: string): Promise<IPeopleDetail> => {
-  const data = await fetchData<IPeople>(`people/${id}`);
+export const getPerson = async (id: string): Promise<IPersonDetail> => {
+  const data = await fetchData<IPerson>(`people/${id}`);
   
   const [films, species, starships, vehicles] = await Promise.all([
     getFilmsByUrls(data.films),
@@ -49,14 +49,14 @@ export const getPerson = async (id: string): Promise<IPeopleDetail> => {
     species,
     starships,
     vehicles
-  } as IPeopleDetail;
+  } as IPersonDetail;
 }
 
-export const getPeopleByUrls = async (urls: string[] | IPeople[]) => {
-  const people = await Promise.allSettled(urls.map(async (url: string | IPeople) => {
+export const getPeopleByUrls = async (urls: string[] | IPerson[]) => {
+  const people = await Promise.allSettled(urls.map(async (url: string | IPerson) => {
     if (typeof url === 'object') return;
     const id = getId(url);
-    const response = await fetchData<IPeople>(url);
+    const response = await fetchData<IPerson>(url);
     return { id, name: response.name };
   }));
   

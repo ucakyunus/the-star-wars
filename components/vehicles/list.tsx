@@ -1,52 +1,56 @@
+'use client';
+
+import { memo, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
-import Card from "@/components/ui/card";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import { navs } from "@/utils/constants";
-import { toTitleCase } from "@/utils/helper";
+import { useInView } from "react-intersection-observer";
+
+import VehiclesItem from "@/components/vehicles/item";
+import { getVehicles } from "@/services/vehicles";
+
 import { IVehicleWithId } from "@/types/vehicle";
 
 interface VehiclesListProps {
   list: IVehicleWithId[];
+  hasMore: boolean;
+  query: string;
 }
 
-const VehiclesList = ({ list }: VehiclesListProps) => {
+const VehiclesList = ({ list, hasMore, query }: VehiclesListProps) => {
+  const { ref, inView } = useInView();
+  
+  const [vehicles, setVehicles] = useState<IVehicleWithId[]>(list);
+  const [pageNumber, setPageNumber] = useState<number>(2);
+  const [hasNext, setHasNext] = useState<boolean>(hasMore);
+  
+  const loadMore = async () => {
+    if (hasNext) {
+      const moreVehicles = await getVehicles({ page: +pageNumber, query })
+      setVehicles([...vehicles, ...moreVehicles.results])
+      setHasNext(moreVehicles.next !== null)
+      setPageNumber((prev) => prev + 1);
+    }
+  }
+  
+  useEffect(() => {
+    if (inView) {
+      loadMore()
+    }
+  }, [inView])
+  
   return (
     <Grid container spacing={2}>
-      {list.map((vehicle: IVehicleWithId) => (
-        <Grid key={vehicle.id} item xs={12} sm={6} lg={4}>
-          <Card title={vehicle.name} href={`${navs.vehicles.href}/${vehicle.id}`}>
-            <Box display={"flex"} flexDirection={"column"} gap={0.5}>
-              <Typography fontWeight={"bolder"}>Model</Typography>
-              <Typography>{vehicle.model}</Typography>
-            </Box>
-            
-            <Divider sx={{ my: 1 }} />
-            
-            <Box display={"flex"} flexDirection={"column"} gap={0.5}>
-              <Typography fontWeight={"bolder"}>Manufacturer</Typography>
-              <Typography>{vehicle.manufacturer}</Typography>
-            </Box>
-            
-            <Divider sx={{ my: 1 }} />
-            
-            <Box display={"flex"} flexDirection={"column"} gap={0.5}>
-              <Typography fontWeight={"bolder"}>Length</Typography>
-              <Typography>{vehicle.length}</Typography>
-            </Box>
-            
-            <Divider sx={{ my: 1 }} />
-            
-            <Box display={"flex"} flexDirection={"column"} gap={0.5}>
-              <Typography fontWeight={"bolder"}>Vehicle Class</Typography>
-              <Typography>{toTitleCase(vehicle.vehicle_class)}</Typography>
-            </Box>
-          </Card>
-        </Grid>
+      {vehicles.map((vehicle: IVehicleWithId) => (
+        <VehiclesItem vehicle={vehicle} key={vehicle.id} />
       ))}
+      
+      {hasNext && (
+        <Box ref={ref} mt={2}>
+          Loading...
+        </Box>
+      )}
     </Grid>
   );
 }
 
-export default VehiclesList;
+export default memo(VehiclesList);

@@ -1,5 +1,5 @@
 import { IFilm } from "@/types/film";
-import { IPeople } from "@/types/people";
+import { IPerson } from "@/types/people";
 
 export interface IPlanet {
   climate: string;
@@ -11,7 +11,7 @@ export interface IPlanet {
   name: string;
   orbital_period: string;
   population: string;
-  residents: string[] | IPeople[];
+  residents: string[] | IPerson[];
   rotation_period: string;
   surface_water: string;
   terrain: string;
@@ -27,4 +27,9 @@ export interface IPlanetResponse {
   next: string | null;
   previous: string | null;
   results: IPlanet[];
+}
+
+export interface IPlanetDetail extends IPlanet {
+  films: { id: string; title: string; }[];
+  residents: { id: string; name: string; }[];
 }

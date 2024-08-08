@@ -1,19 +1,22 @@
-import Card from "@/components/ui/card";
-import { IStarshipDetail } from "@/types/starship";
+import { memo } from "react";
+import Link from "next/link";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Rating from "@mui/material/Rating";
-import {formatNumber, toTitleCase} from "@/utils/helper";
-import Link from "next/link";
 import Chip from "@mui/material/Chip";
+
+import Card from "@/components/ui/card";
+import { formatNumber, toTitleCase } from "@/utils/helper";
+
+import { IStarshipDetail } from "@/types/starship";
 
 
 interface StarshipDetailProps {
   starship: IStarshipDetail;
 }
 
-const StarshipDetail = ({ starship }: StarshipDetailProps) => {
+const Detail = ({ starship }: StarshipDetailProps) => {
   return (
     <Card title={starship.name} sx={{ width: '100%', mb: 5 }}>
       <Box display={"flex"} flexDirection={"column"} gap={0.5}>
@@ -143,4 +146,4 @@ const StarshipDetail = ({ starship }: StarshipDetailProps) => {
   );
 }
 
-export default StarshipDetail;
+export default memo(Detail);

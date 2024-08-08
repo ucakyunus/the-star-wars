@@ -16,7 +16,7 @@ interface FilmsListProps {
   query: string;
 }
 
-const FilmsList = ({ list, hasMore, query }: FilmsListProps) => {
+const List = ({ list, hasMore, query }: FilmsListProps) => {
   const { ref, inView } = useInView();
   
   const [films, setFilms] = useState<IFilmWithId[]>(list);
@@ -53,4 +53,4 @@ const FilmsList = ({ list, hasMore, query }: FilmsListProps) => {
   )
 }
 
-export default memo(FilmsList);
+export default memo(List);

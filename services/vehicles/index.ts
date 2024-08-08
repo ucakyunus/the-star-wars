@@ -1,24 +1,50 @@
 import { fetchData, filterFulfilled, getId } from "@/utils/helper";
-import { IVehicle } from "@/types/vehicle";
+import { getFilmsByUrls } from "@/services/films";
+import { getPeopleByUrls } from "@/services/people";
 
-export const getVehicles = async () => {
-  const response = await fetch(`vehicles`);
-  const data =  await response.json();
-  
-  const results = data.results.map((vehicle: IVehicle) => ({
-    ...vehicle,
-    id: vehicle.url.split('/').at(-2)
-  }))
-  
-  return {
-    ...data,
-    results
+import { IVehicle, IVehicleDetail, IVehicleResponse, IVehicleWithId } from "@/types/vehicle";
+
+
+export const getVehicles = async ({ page = 1, query }: { page: number, query?: string }) => {
+  try {
+    let url = `vehicles/?page=${page}`;
+    
+    if (query) {
+      url = `vehicles/?search=${query}&page=${page}`;
+    }
+    
+    const data = await fetchData<IVehicleResponse>(url);
+    
+    const results = data.results.map((vehicle: IVehicle) => ({
+      ...vehicle,
+      id: getId(vehicle.url)
+    })) as IVehicleWithId[]
+    
+    return { ...data, results }
+  } catch (err) {
+    console.error(err);
+    return {
+      count: 0,
+      next: "",
+      previous: "",
+      results: []
+    };
   }
 }
 
-export const getVehicle = async (id: string) => {
-  const response = await fetch(`vehicles/${id}`);
-  return await response.json();
+export const getVehicle = async (id: string): Promise<IVehicleDetail> => {
+  const data = await fetchData<IVehicle>(`vehicles/${id}`);
+  
+  const [films, pilots] = await Promise.all([
+    getFilmsByUrls(data.films),
+    getPeopleByUrls(data.pilots)
+  ]);
+  
+  return {
+    ...data,
+    films,
+    pilots
+  } as IVehicleDetail;
 }
 
 export const getVehiclesByUrls = async (urls: string[] | IVehicle[]) => {

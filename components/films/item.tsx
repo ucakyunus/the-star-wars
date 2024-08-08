@@ -15,7 +15,7 @@ interface FilmItemProps {
   film: IFilmWithId
 }
 
-const FilmItem = ({ film }: FilmItemProps) => {
+const Item = ({ film }: FilmItemProps) => {
   return (
     <Grid item xs={12} sm={6} lg={4}>
       <Card title={film.title} href={`${navs.films.href}/${film.id}`}>
@@ -56,4 +56,4 @@ const FilmItem = ({ film }: FilmItemProps) => {
   )
 }
 
-export default memo(FilmItem);
+export default memo(Item);

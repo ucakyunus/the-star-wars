@@ -1,3 +1,4 @@
+import { memo } from "react";
 import Link from "next/link";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
@@ -7,13 +8,13 @@ import Divider from "@mui/material/Divider";
 import Card from "@/components/ui/card";
 import { toTitleCase } from "@/utils/helper";
 
-import { IPeopleDetail } from "@/types/people";
+import { IPersonDetail } from "@/types/people";
 
 interface PeopleDetailProps {
-  person: IPeopleDetail;
+  person: IPersonDetail;
 }
 
-const PeopleDetail = ({ person }: PeopleDetailProps) => {
+const Detail = ({ person }: PeopleDetailProps) => {
   return (
     <Card title={person.name} sx={{ width: '100%', mb: 5 }}>
       <Box display={"flex"} flexDirection={"column"} gap={0.5}>
@@ -125,4 +126,4 @@ const PeopleDetail = ({ person }: PeopleDetailProps) => {
   )
 }
 
-export default PeopleDetail;
+export default memo(Detail);

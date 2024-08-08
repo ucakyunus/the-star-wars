@@ -1,8 +1,19 @@
 import VehiclesList from "@/components/vehicles/list";
 import { getVehicles } from "@/services/vehicles";
 
-export default async function VehiclesPage() {
-  const vehicles = await getVehicles();
+interface VehiclesPageProps {
+  searchParams: {
+    query?: string;
+    page?: number;
+  }
+
+}
+
+export default async function VehiclesPage({ searchParams }: VehiclesPageProps) {
+  const query = searchParams?.query || '';
+  const page = searchParams?.page || 1;
   
-  return <VehiclesList list={vehicles.results} />
+  const vehicles = await getVehicles({ query, page: +page });
+  
+  return <VehiclesList list={vehicles.results} hasMore={!!vehicles.next} query={query} />
 }

@@ -1,5 +1,5 @@
 import { IPlanet } from "@/types/planet";
-import { IPeople } from "@/types/people";
+import { IPerson } from "@/types/people";
 import { IFilm } from "@/types/film";
 
 export interface ISpecie {
@@ -14,7 +14,7 @@ export interface ISpecie {
   homeworld: string | IPlanet;
   language: string;
   name: string;
-  people: string[] | IPeople[];
+  people: string[] | IPerson[];
   films: string[] | IFilm[];
   skin_colors: string;
   url: string;
@@ -22,4 +22,16 @@ export interface ISpecie {
 
 export interface ISpecieWithId extends ISpecie {
   id: string;
+}
+
+export interface ISpecieResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: ISpecie[];
+}
+
+export interface ISpecieDetail extends ISpecie {
+  people: { id: string; name: string; }[];
+  films: { id: string; title: string; }[];
 }

@@ -8,18 +8,18 @@ import { useInView } from "react-intersection-observer";
 import PeopleItem from "@/components/people/item";
 import { getPeople } from "@/services/people";
 
-import { IPeopleWithId } from "@/types/people";
+import { IPersonWithId } from "@/types/people";
 
 interface PeopleListProps {
-  list: IPeopleWithId[];
+  list: IPersonWithId[];
   hasMore: boolean;
   query: string;
 }
 
-const PeopleList = ({ list, hasMore, query }: PeopleListProps) => {
+const List = ({ list, hasMore, query }: PeopleListProps) => {
   const { ref, inView } = useInView();
   
-  const [people, setPeople] = useState<IPeopleWithId[]>(list);
+  const [people, setPeople] = useState<IPersonWithId[]>(list);
   const [pageNumber, setPageNumber] = useState<number>(2);
   const [hasNext, setHasNext] = useState<boolean>(hasMore);
   
@@ -38,10 +38,9 @@ const PeopleList = ({ list, hasMore, query }: PeopleListProps) => {
     }
   }, [inView])
   
-  
   return (
     <Grid container spacing={2}>
-      {people.map((person: IPeopleWithId) => (
+      {people.map((person: IPersonWithId) => (
         <PeopleItem person={person} key={person.id} />
       ))}
       
@@ -54,4 +53,4 @@ const PeopleList = ({ list, hasMore, query }: PeopleListProps) => {
   )
 }
 
-export default memo(PeopleList);
+export default memo(List);

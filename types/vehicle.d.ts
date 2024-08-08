@@ -1,4 +1,4 @@
-import { IPeople } from "@/types/people";
+import { IPerson } from "@/types/people";
 import { IFilm } from "@/types/film";
 
 export interface IVehicle {
@@ -14,7 +14,7 @@ export interface IVehicle {
   model: string;
   name: string;
   passengers: string;
-  pilots: string[] | IPeople[];
+  pilots: string[] | IPerson[];
   films: string[] | IFilm[];
   url: string;
   vehicle_class: string;
@@ -23,3 +23,16 @@ export interface IVehicle {
 export interface IVehicleWithId extends IVehicle {
   id: string;
 }
+
+export interface IVehicleResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: IVehicle[];
+}
+
+export interface IVehicleDetail extends IVehicle {
+  films: { id: string; title: string; }[];
+  pilots: { id: string; name: string; }[];
+}
+

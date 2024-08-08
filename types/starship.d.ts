@@ -1,5 +1,5 @@
 import { IFilm } from "@/types/film";
-import { IPeople } from "@/types/people";
+import { IPerson } from "@/types/people";
 
 export interface IStarship {
   MGLT: string;
@@ -17,7 +17,7 @@ export interface IStarship {
   name: string;
   passengers: string;
   films: string[] | IFilm[];
-  pilots: string[] | IPeople[];
+  pilots: string[] | IPerson[];
   starship_class: string;
   url: string;
 }

@@ -1,21 +1,25 @@
 import { fetchData, filterFulfilled, getId } from "@/utils/helper";
-import { IPlanet, IPlanetResponse, IPlanetWithId } from "@/types/planet";
+import { getFilmsByUrls} from "@/services/films";
+import { getPeopleByUrls } from "@/services/people";
 
-export const getPlanets = async (page: number = 1) => {
+import { IPlanet, IPlanetDetail, IPlanetResponse, IPlanetWithId } from "@/types/planet";
+
+export const getPlanets = async ({ page = 1, query }: { page: number, query?: string }) => {
   try {
-    const response = await fetch(`planets/?page=${page}`);
-    const data = (await response.json()) as IPlanetResponse;
+    let url = `planets/?page=${page}`;
+    
+    if(query) {
+      url = `planets/?search=${query}&page=${page}`;
+    }
+    
+    const data = await fetchData<IPlanetResponse>(url);
     
     const results = data.results?.map((planet: IPlanet) => ({
       ...planet,
       id: getId(planet.url)
     })) as IPlanetWithId[]
     
-    
-    return {
-      ...data,
-      results
-    };
+    return { ...data,  results };
   } catch (err) {
     console.error(err);
     return {
@@ -27,9 +31,19 @@ export const getPlanets = async (page: number = 1) => {
   }
 }
 
-export const getPlanet = async (id: string) => {
-  const response = await fetch(`planets/${id}`);
-  return await response.json();
+export const getPlanet = async (id: string): Promise<IPlanetDetail> => {
+  const data = await fetchData<IPlanet>(`planets/${id}`);
+  
+  const [films, residents] = await Promise.all([
+    getFilmsByUrls(data.films),
+    getPeopleByUrls(data.residents)
+  ]);
+  
+  return {
+    ...data,
+    films,
+    residents
+  } as IPlanetDetail
 }
 
 export const getPlanetsByUrls = async (urls: string[] | IPlanet[]) => {

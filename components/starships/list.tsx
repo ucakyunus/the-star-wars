@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { useInView } from "react-intersection-observer";
 
-import StarshipItem from "@/components/starship/item";
+import StarshipItem from "@/components/starships/item";
 import { getStarships } from "@/services/starships";
 
 import { IStarshipWithId } from "@/types/starship";
@@ -16,7 +16,7 @@ interface StarshipListProps {
   query: string;
 }
 
-const StarshipList = ({ list, hasMore, query }: StarshipListProps) => {
+const List = ({ list, hasMore, query }: StarshipListProps) => {
   const { ref, inView } = useInView();
   
   const [starships, setStarships] = useState<IStarshipWithId[]>(list);
@@ -53,4 +53,4 @@ const StarshipList = ({ list, hasMore, query }: StarshipListProps) => {
   );
 }
 
-export default memo(StarshipList);
+export default memo(List);

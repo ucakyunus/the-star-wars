@@ -1,47 +1,56 @@
+'use client';
+
+import { memo, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
-import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import { useInView } from "react-intersection-observer";
 
-import Card from "@/components/ui/card";
-
-import { navs } from "@/utils/constants";
+import SpecieItem from "@/components/species/item";
+import { getSpecies } from "@/services/species";
 
 import { ISpecieWithId } from "@/types/specie";
 
 interface SpeciesListProps {
   list: ISpecieWithId[];
+  hasMore: boolean;
+  query: string;
 }
 
-const SpeciesList = ({ list }: SpeciesListProps) => {
+const List = ({ list, hasMore, query }: SpeciesListProps) => {
+  const { ref, inView } = useInView();
+  
+  const [species, setSpecies] = useState<ISpecieWithId[]>(list);
+  const [pageNumber, setPageNumber] = useState<number>(2);
+  const [hasNext, setHasNext] = useState<boolean>(hasMore);
+  
+  const loadMore = async () => {
+    if (hasNext) {
+      const moreSpecies = await getSpecies({ page: +pageNumber, query })
+      setSpecies([...species, ...moreSpecies.results])
+      setHasNext(moreSpecies.next !== null)
+      setPageNumber((prev) => prev + 1);
+    }
+  }
+  
+  useEffect(() => {
+    if (inView) {
+      loadMore()
+    }
+  }, [inView])
+  
   return (
     <Grid container spacing={2}>
-      {list.map((specie: ISpecieWithId) => (
-        <Grid key={specie.id} item xs={12} sm={6} lg={4}>
-          <Card title={specie.name} href={`${navs.species.href}/${specie.id}`}>
-            <Box display={"flex"} flexDirection={"column"} gap={0.5}>
-              <Typography fontWeight={"bolder"}>Language</Typography>
-              <Typography>{specie.language}</Typography>
-            </Box>
-            
-            <Divider sx={{ my: 1 }}/>
-            
-            <Box display={"flex"} flexDirection={"column"} gap={0.5}>
-              <Typography fontWeight={"bolder"}>Classification:</Typography>
-              <Typography>{specie.classification}</Typography>
-            </Box>
-            
-            <Divider sx={{ my: 1 }}/>
-            
-            <Box display={"flex"} flexDirection={"column"} gap={0.5}>
-              <Typography fontWeight={"bolder"}>Average Height:</Typography>
-              <Typography>{specie.average_height}</Typography>
-            </Box>
-          </Card>
-        </Grid>
+      {species.map((specie: ISpecieWithId) => (
+        <SpecieItem specie={specie} key={specie.id} />
       ))}
+      
+      {hasNext && (
+        <Box ref={ref} mt={2}>
+          Loading...
+        </Box>
+      )}
     </Grid>
   )
 }
 
-export default SpeciesList;
+export default memo(List);

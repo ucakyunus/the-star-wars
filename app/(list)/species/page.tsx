@@ -1,8 +1,18 @@
 import SpeciesList from "@/components/species/list";
 import { getSpecies } from "@/services/species";
 
-export default async function SpeciesPage() {
-  const species = await getSpecies();
+interface SpeciesPageProps {
+  searchParams: {
+    query?: string;
+    page?: number;
+  }
+}
+
+export default async function SpeciesPage({ searchParams }: SpeciesPageProps) {
+  const query = searchParams?.query || '';
+  const page = searchParams?.page || 1;
   
-  return <SpeciesList list={species.results} />
+  const species = await getSpecies({ query, page: +page });
+  
+  return <SpeciesList list={species.results} hasMore={!!species.next} query={query} />
 }

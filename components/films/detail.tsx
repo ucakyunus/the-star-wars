@@ -1,3 +1,4 @@
+import { memo } from "react";
 import Link from "next/link";
 import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
@@ -13,7 +14,7 @@ interface FilmDetailProps {
   film: IFilmDetail;
 }
 
-const FilmDetail = ({ film }: FilmDetailProps) => {
+const Detail = ({ film }: FilmDetailProps) => {
   return (
     <Card title={film.title} sx={{ width: '100%', mb: 5 }}>
       <Box display={"flex"} flexDirection={"column"} gap={0.5}>
@@ -117,4 +118,4 @@ const FilmDetail = ({ film }: FilmDetailProps) => {
   )
 }
 
-export default FilmDetail;
+export default memo(Detail);

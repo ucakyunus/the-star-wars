@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getStarship } from "@/services/starships";
-import StarshipDetail from "@/components/starship/detail";
+import StarshipDetail from "@/components/starships/detail";
 
 type Props = {
   params: { id: string }

@@ -9,12 +9,11 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 interface CardProps extends MuiCardProps {
   title: string;
-  hideActions?: boolean
   href?: string;
   children: React.ReactNode;
 }
 
-const Card = ({ title, hideActions = false, href, children, ...rest }: CardProps) => {
+const Card = ({ title, href, children, ...rest }: CardProps) => {
   return (
     <MuiCard {...rest}>
       <CardHeader title={title.toUpperCase()} sx={{ color: '#ffc107', textAlign: 'center' }}/>
@@ -23,7 +22,7 @@ const Card = ({ title, hideActions = false, href, children, ...rest }: CardProps
         {children}
       </CardContent>
       
-      {!hideActions && href && (
+      {!!href && (
         <CardActions disableSpacing sx={{ justifyContent: 'flex-end' }}>
           <Link href={href} passHref>
             <Button color={"info"} sx={{ marginLeft: 'auto', textTransform: 'inherit' }} endIcon={<ArrowForwardIcon />}>

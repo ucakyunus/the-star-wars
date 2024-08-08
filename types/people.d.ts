@@ -1,7 +1,7 @@
 import { IFilm } from "@/types/film";
 import { IPlanet } from "@/types/planet";
 
-export interface IPeople {
+export interface IPerson {
   birth_year: string;
   eye_color: string;
   films: string[] | IFilm[];
@@ -20,18 +20,18 @@ export interface IPeople {
   vehicles: string[] | IVehicle[];
 }
 
-export interface IPeopleWithId extends IPeople {
+export interface IPersonWithId extends IPerson {
   id: string;
 }
 
-export interface IPeopleResponse {
+export interface IPersonResponse {
   count: number;
   next: string | null;
   previous: string | null;
-  results: IPeople[];
+  results: IPerson[];
 }
 
-export interface IPeopleDetail extends IPeople {
+export interface IPersonDetail extends IPerson {
   films: { id: string; title: string; }[];
   species: { id: string; name: string; }[];
   starships: { id: string; name: string; }[];

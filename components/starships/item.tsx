@@ -13,7 +13,7 @@ interface StarshipItemProps {
   starship: IStarshipWithId;
 }
 
-const StarshipItem = ({ starship }: StarshipItemProps) => {
+const Item = ({ starship }: StarshipItemProps) => {
   return (
     <Grid key={starship.id} item xs={12} sm={6} lg={4}>
       <Card title={starship.name} href={`${navs.starships.href}/${starship.id}`}>
@@ -47,4 +47,4 @@ const StarshipItem = ({ starship }: StarshipItemProps) => {
   )
 }
 
-export default memo(StarshipItem);
+export default memo(Item);

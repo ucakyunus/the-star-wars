@@ -1,11 +1,11 @@
-import { IPeople } from "@/types/people";
+import { IPerson} from "@/types/people";
 import { IPlanet } from "@/types/planet";
 import { ISpecie } from "@/types/specie";
 import { IStarship } from "@/types/starship";
 import { IVehicle } from "@/types/vehicle";
 
 export interface IFilm {
-  characters: string[] | IPeople[];
+  characters: string[] | IPerson[];
   created: Date;
   director: string;
   edited: Date;

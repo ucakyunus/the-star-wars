@@ -5,17 +5,16 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 
 import Card from "@/components/ui/card";
-
 import { navs } from "@/utils/constants";
 import { toTitleCase } from "@/utils/helper";
 
-import { IPeopleWithId } from "@/types/people";
+import { IPersonWithId } from "@/types/people";
 
 interface PeopleItemProps {
-  person: IPeopleWithId
+  person: IPersonWithId
 }
 
-const PeopleItem = ({ person }: PeopleItemProps) => {
+const Item = ({ person }: PeopleItemProps) => {
   return (
     <Grid key={person.id} item xs={12} sm={6} lg={4}>
       <Card title={person.name} href={`${navs.people.href}/${person.id}`}>
@@ -71,4 +70,4 @@ const PeopleItem = ({ person }: PeopleItemProps) => {
   )
 }
 
-export default memo(PeopleItem);
+export default memo(Item);

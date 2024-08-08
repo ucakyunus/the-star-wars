@@ -1,52 +1,56 @@
+'use client';
+
+import { memo, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import Card from "@/components/ui/card";
-import { formatNumber, toTitleCase } from "@/utils/helper";
-import { IPlanet } from "@/types/planet";
+import { useInView } from "react-intersection-observer";
+
+import PlanetItem from "@/components/planets/item";
+import { getPlanets } from "@/services/planets";
+
+import { IPlanetWithId } from "@/types/planet";
 
 interface PlanetListProps {
-  list: IPlanet[];
+  list: IPlanetWithId[];
+  hasMore: boolean;
+  query: string;
 }
 
-const PlanetsList = ({ list }: PlanetListProps) => {
+const List = ({ list, hasMore, query }: PlanetListProps) => {
+  const { ref, inView } = useInView();
+  
+  const [planets, setPlanets] = useState<IPlanetWithId[]>(list);
+  const [pageNumber, setPageNumber] = useState<number>(2);
+  const [hasNext, setHasNext] = useState<boolean>(hasMore);
+  
+  const loadMore = async () => {
+    if (hasNext) {
+      const morePlanets = await getPlanets({ page: +pageNumber, query })
+      setPlanets([...planets, ...morePlanets.results])
+      setHasNext(morePlanets.next !== null)
+      setPageNumber((prev) => prev + 1);
+    }
+  }
+  
+  useEffect(() => {
+    if (inView) {
+      loadMore()
+    }
+  }, [inView])
+  
   return (
     <Grid container spacing={2}>
-      {list.map((planet: IPlanet) => (
-        <Grid key={planet.name} item xs={12} sm={6} lg={4}>
-          <Card title={planet.name} hideActions>
-            
-            <Box display={"flex"} flexDirection={"column"} gap={0.5}>
-              <Typography fontWeight={"bolder"}>Terrain</Typography>
-              <Typography>{toTitleCase(planet.terrain)}</Typography>
-            </Box>
-            
-            <Divider sx={{ my: 1 }}/>
-            
-            <Box display={"flex"} flexDirection={"column"} gap={0.5}>
-              <Typography fontWeight={"bolder"}>Climate</Typography>
-              <Typography>{toTitleCase(planet.climate)}</Typography>
-            </Box>
-            
-            <Divider sx={{ my: 1 }}/>
-            
-            <Box display={"flex"} flexDirection={"column"} gap={0.5}>
-              <Typography fontWeight={"bolder"}>Gravity</Typography>
-              <Typography>{planet.gravity}</Typography>
-            </Box>
-            
-            <Divider sx={{ my: 1 }} />
-            
-            <Box display={"flex"} flexDirection={"column"} gap={0.5}>
-              <Typography fontWeight={"bolder"}>Population</Typography>
-              <Typography>{planet.population !== 'unknown' ? formatNumber(+planet.population) : 'unknown'}</Typography>
-            </Box>
-          </Card>
-        </Grid>
+      {planets.map((planet: IPlanetWithId) => (
+        <PlanetItem planet={planet} key={planet.name} />
       ))}
+      
+      {hasNext && (
+        <Box ref={ref} mt={2}>
+          Loading...
+        </Box>
+      )}
     </Grid>
   )
 }
 
-export default PlanetsList;
+export default memo(List);

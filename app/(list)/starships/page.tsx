@@ -1,4 +1,4 @@
-import StarshipList from "@/components/starship/list";
+import StarshipList from "@/components/starships/list";
 import { getStarships } from "@/services/starships";
 
 interface StarshipsPageProps {
