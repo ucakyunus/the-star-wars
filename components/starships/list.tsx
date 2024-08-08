@@ -3,6 +3,8 @@
 import { memo, useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+
 import { useInView } from "react-intersection-observer";
 
 import StarshipItem from "@/components/starships/item";
@@ -39,17 +41,23 @@ const List = ({ list, hasMore, query }: StarshipListProps) => {
   }, [inView])
   
   return (
-    <Grid container spacing={2}>
-      {starships.map((starship: IStarshipWithId) => (
-        <StarshipItem starship={starship} key={starship.id} />
-      ))}
-      
+    <>
+      <Typography variant="h4" gutterBottom sx={{ display: {xs: 'block', md: 'none' }}}>
+        Starships
+      </Typography>
+
+      <Grid container spacing={2}>
+        {starships.map((starship: IStarshipWithId) => (
+          <StarshipItem starship={starship} key={starship.name} />
+        ))}
+      </Grid>
+
       {hasNext && (
         <Box ref={ref} mt={2}>
           Loading...
         </Box>
       )}
-    </Grid>
+    </>
   );
 }
 

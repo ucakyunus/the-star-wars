@@ -2,6 +2,7 @@
 
 import { memo, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useInView } from "react-intersection-observer";
 
@@ -39,17 +40,23 @@ const List = ({ list, hasMore, query }: SpeciesListProps) => {
   }, [inView])
   
   return (
-    <Grid container spacing={2}>
-      {species.map((specie: ISpecieWithId) => (
-        <SpecieItem specie={specie} key={specie.id} />
-      ))}
-      
+    <>
+      <Typography variant="h4" gutterBottom sx={{ display: {xs: 'block', md: 'none' }}}>
+        Species
+      </Typography>
+
+      <Grid container spacing={2}>
+        {species.map((specie: ISpecieWithId) => (
+          <SpecieItem specie={specie} key={specie.name} />
+        ))}
+      </Grid>
+
       {hasNext && (
         <Box ref={ref} mt={2}>
           Loading...
         </Box>
       )}
-    </Grid>
+    </>
   )
 }
 

@@ -3,6 +3,7 @@
 import { memo, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import { useInView } from "react-intersection-observer";
 
 import PeopleItem from "@/components/people/item";
@@ -39,17 +40,23 @@ const List = ({ list, hasMore, query }: PeopleListProps) => {
   }, [inView])
   
   return (
-    <Grid container spacing={2}>
-      {people.map((person: IPersonWithId) => (
-        <PeopleItem person={person} key={person.id} />
-      ))}
-      
+    <>
+      <Typography variant="h4" gutterBottom sx={{ display: {xs: 'block', md: 'none' }}}>
+        People
+      </Typography>
+
+      <Grid container spacing={2}>
+        {people.map((person: IPersonWithId) => (
+          <PeopleItem person={person} key={person.name} />
+        ))}
+      </Grid>
+
       {hasNext && (
         <Box ref={ref} mt={2}>
           Loading...
         </Box>
       )}
-    </Grid>
+    </>
   )
 }
 

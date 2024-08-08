@@ -3,6 +3,7 @@
 import { memo, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import { useInView } from "react-intersection-observer";
 
 import VehiclesItem from "@/components/vehicles/item";
@@ -39,17 +40,23 @@ const VehiclesList = ({ list, hasMore, query }: VehiclesListProps) => {
   }, [inView])
   
   return (
-    <Grid container spacing={2}>
-      {vehicles.map((vehicle: IVehicleWithId) => (
-        <VehiclesItem vehicle={vehicle} key={vehicle.id} />
-      ))}
-      
+    <>
+      <Typography variant="h4" gutterBottom sx={{ display: {xs: 'block', md: 'none' }}}>
+        Vehicles
+      </Typography>
+
+      <Grid container spacing={2}>
+        {vehicles.map((vehicle: IVehicleWithId) => (
+          <VehiclesItem vehicle={vehicle} key={vehicle.name} />
+        ))}
+      </Grid>
+
       {hasNext && (
         <Box ref={ref} mt={2}>
           Loading...
         </Box>
       )}
-    </Grid>
+    </>
   );
 }
 

@@ -3,6 +3,7 @@
 import { memo, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import { useInView } from "react-intersection-observer";
 
 import PlanetItem from "@/components/planets/item";
@@ -39,17 +40,23 @@ const List = ({ list, hasMore, query }: PlanetListProps) => {
   }, [inView])
   
   return (
-    <Grid container spacing={2}>
-      {planets.map((planet: IPlanetWithId) => (
-        <PlanetItem planet={planet} key={planet.name} />
-      ))}
-      
+    <>
+      <Typography variant="h4" gutterBottom sx={{ display: {xs: 'block', md: 'none' }}}>
+        Planets
+      </Typography>
+
+      <Grid container spacing={2}>
+        {planets.map((planet: IPlanetWithId) => (
+          <PlanetItem planet={planet} key={planet.name} />
+        ))}
+      </Grid>
+
       {hasNext && (
         <Box ref={ref} mt={2}>
           Loading...
         </Box>
       )}
-    </Grid>
+    </>
   )
 }
 

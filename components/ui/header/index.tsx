@@ -1,6 +1,8 @@
 'use client';
 
-import { memo } from "react";
+import { memo, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -8,34 +10,76 @@ import Container from "@mui/material/Container";
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import Link from "next/link";
-import Image from "next/image";
+import Drawer from '@mui/material/Drawer';
+import List from  '@mui/material/List';
+import ListItem from  '@mui/material/ListItem';
+import ListItemButton from  '@mui/material/ListItemButton';
+import ListItemText from  '@mui/material/ListItemText';
+import Divider from "@mui/material/Divider";
+
 import { INavItem, navs } from "@/utils/constants";
 import { usePathname } from "next/navigation";
 
 const Header = () => {
   const pathname = usePathname();
-
+  
+  const [open, setOpen] = useState(false);
+  
   return (
     <header>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box>
         <AppBar position="static" variant={"outlined"} color={"info"}>
           <Toolbar variant="regular">
             <Container>
-              {/* not suitable for mobile */}
-              <Box sx={{ position: 'absolute', left: 24, top: '50%', transform: 'translateY(-50%)', width: 70, height: 70 }}>
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: { xs: '50%', md: 24 },
+                  transform: { xs: 'translate(-50%, -50%)', md: 'translateY(-50%)' },
+                  width: { xs: 60, md: 70 },
+                  height: { xs: 60, md: 70 }
+                }}
+              >
                 <Image src={"/images/star-wars-logo.png"} alt={"Star Wars"} priority quality={100} fill/>
               </Box>
-             
+            
               {/* for the mobile */}
               <IconButton
                 edge="start"
                 color="inherit"
                 aria-label="menu"
                 sx={{ mr: 2, display: { xs: "block", md: 'none' } }}
+                onClick={() => setOpen(true)}
               >
                 <MenuIcon />
               </IconButton>
+              
+              {/* for the mobile */}
+              <Drawer open={open} role="presentation" onClose={() => setOpen(false)}>
+                <Box display={"flex"} justifyContent={"center"} mt={1}>
+                  <Image src={"/images/star-wars-logo.png"} alt={"Star Wars"} quality={100} width={150} height={80} />
+                </Box>
+              
+                <List sx={{ width: 250 }}>
+                  {Object.values(navs).map((nav, index) => (
+                    <>
+                      <ListItem key={nav.href} disablePadding>
+                        <Link href={nav.href} passHref>
+                          <ListItemButton
+                            onClick={() => {
+                              setOpen(false)
+                            }}
+                          >
+                            <ListItemText primary={nav.title} sx={{ color: pathname === nav.href ? '#ffc107' : 'inherit' }} />
+                          </ListItemButton>
+                        </Link>
+                      </ListItem>
+                      <Divider />
+                    </>
+                  ))}
+                </List>
+              </Drawer>
               
               <Box
                 sx={{
