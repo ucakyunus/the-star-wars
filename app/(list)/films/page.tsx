@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+
 import FilmsList from "@/components/films/list";
 import { getFilms } from "@/services/films";
 
@@ -6,6 +8,10 @@ interface FilmsPageProps {
     query?: string;
     page?: number;
   }
+}
+
+export const metadata: Metadata = {
+  title: 'Films',
 }
 
 export default async function FilmsPage({ searchParams }: FilmsPageProps) {

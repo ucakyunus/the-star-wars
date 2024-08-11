@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+
 import StarshipList from "@/components/starships/list";
 import { getStarships } from "@/services/starships";
 
@@ -6,6 +8,10 @@ interface StarshipsPageProps {
     query?: string;
     page?: number;
   }
+}
+
+export const metadata: Metadata = {
+  title: 'Starships',
 }
 
 export default async function StarshipsPage({ searchParams }: StarshipsPageProps) {

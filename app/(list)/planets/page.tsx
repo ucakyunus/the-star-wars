@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+
 import PlanetsList from "@/components/planets/list";
 import {getPlanets} from "@/services/planets";
 
@@ -6,6 +8,10 @@ interface PlanetsPageProps {
     query?: string;
     page?: number;
   }
+}
+
+export const metadata: Metadata = {
+  title: 'Planets',
 }
 
 export default async function PlanetsPage({ searchParams }: PlanetsPageProps) {

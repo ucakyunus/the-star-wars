@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+
 import VehiclesList from "@/components/vehicles/list";
 import { getVehicles } from "@/services/vehicles";
 
@@ -6,7 +8,10 @@ interface VehiclesPageProps {
     query?: string;
     page?: number;
   }
+}
 
+export const metadata: Metadata = {
+  title: 'Vehicles',
 }
 
 export default async function VehiclesPage({ searchParams }: VehiclesPageProps) {

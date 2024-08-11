@@ -4,11 +4,7 @@ import SearchInput from "@/components/ui/search-input";
 import Box from "@mui/material/Box";
 import Header from "@/components/ui/header";
 
-const ListLayout = ({
-  children,
-}: {
-  children: React.ReactNode
-}) => {
+const ListLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main>
       <Header />

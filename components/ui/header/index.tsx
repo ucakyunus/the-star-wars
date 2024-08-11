@@ -2,27 +2,19 @@
 
 import { memo, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import dynamic from "next/dynamic";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Container from "@mui/material/Container";
-import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import Drawer from '@mui/material/Drawer';
-import List from  '@mui/material/List';
-import ListItem from  '@mui/material/ListItem';
-import ListItemButton from  '@mui/material/ListItemButton';
-import ListItemText from  '@mui/material/ListItemText';
-import Divider from "@mui/material/Divider";
 
-import { INavItem, navs } from "@/utils/constants";
-import { usePathname } from "next/navigation";
+import NavLink from "@/components/ui/header/nav-link";
+
+const Drawer = dynamic(() => import('@/components/ui/header/drawer'));
 
 const Header = () => {
-  const pathname = usePathname();
-  
   const [open, setOpen] = useState(false);
   
   return (
@@ -56,48 +48,10 @@ const Header = () => {
               </IconButton>
               
               {/* for the mobile */}
-              <Drawer open={open} role="presentation" onClose={() => setOpen(false)}>
-                <Box display={"flex"} justifyContent={"center"} mt={1}>
-                  <Image src={"/images/star-wars-logo.png"} alt={"Star Wars"} quality={100} width={150} height={80} />
-                </Box>
+              <Drawer open={open} onClose={() => setOpen(false)} />
               
-                <List sx={{ width: 250 }}>
-                  {Object.values(navs).map((nav, index) => (
-                    <Box key={nav.href}>
-                      <ListItem disablePadding>
-                        <Link href={nav.href} passHref>
-                          <ListItemButton
-                            onClick={() => {
-                              setOpen(false)
-                            }}
-                          >
-                            <ListItemText primary={nav.title} sx={{ color: pathname === nav.href ? '#ffc107' : 'inherit' }} />
-                          </ListItemButton>
-                        </Link>
-                      </ListItem>
-                      <Divider />
-                    </Box>
-                  ))}
-                </List>
-              </Drawer>
-              
-              <Box
-                sx={{
-                  width: '100%',
-                  display: { xs: 'none', md: 'flex' },
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  gap: 5
-                }}
-              >
-                {Object.values(navs).map((nav: INavItem, index: number) => (
-                  <Link key={index} href={nav.href} style={{ color: pathname === nav.href ? '#ffc107' : 'inherit' }}>
-                    <Typography variant="h6" color="inherit" component="div">
-                      {nav.title}
-                    </Typography>
-                  </Link>
-                ))}
-              </Box>
+              <NavLink />
+
             </Container>
           </Toolbar>
         </AppBar>

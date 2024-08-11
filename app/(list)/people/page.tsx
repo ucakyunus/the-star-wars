@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+
 import PeopleList from "@/components/people/list";
 import { getPeople } from "@/services/people";
 
@@ -6,6 +8,10 @@ interface PeoplePageProps {
     query?: string;
     page?: number;
   }
+}
+
+export const metadata: Metadata = {
+  title: 'People',
 }
 
 export default async function PeoplePage({ searchParams }: PeoplePageProps) {

@@ -6,12 +6,17 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from '@mui/icons-material/Search';
-
 import debounce from "@mui/utils/debounce";
 
-const debouncedHandleSearch = debounce((event: React.ChangeEvent<HTMLInputElement>, searchParams: URLSearchParams, pathname: string, replace: (url: string) => void) => {
+const debouncedHandleSearch = debounce((
+  event: React.ChangeEvent<HTMLInputElement>, 
+  searchParams: URLSearchParams, 
+  pathname: string, 
+  replace: (url: string) => void
+) => {
   const term = event.target.value;
   const params = new URLSearchParams(searchParams);
+
   if (term) {
     params.set('query', term);
   } else {
