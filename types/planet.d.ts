@@ -1,5 +1,5 @@
-import { IFilm } from "@/types/film";
-import { IPerson } from "@/types/people";
+import type { IFilm } from "@/types/film";
+import type { IPerson } from "@/types/people";
 
 export interface IPlanet {
   climate: string;

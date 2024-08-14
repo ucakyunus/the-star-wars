@@ -1,7 +1,7 @@
 import { filterFulfilled, getId } from "@/utils/helper";
 import { getFilmsByUrls} from "@/services/films";
 import { getPeopleByUrls } from "@/services/people";
-import { getPlanetPicture } from "@/utils/constants";
+import { getPlanetPicture } from "@/utils/picture-urls";
 import { fetchData } from "@/utils/api";
 
 import type { IPlanet, IPlanetDetail, IPlanetResponse, IPlanetCustom } from "@/types/planet";
@@ -50,7 +50,7 @@ export const getPlanet = async (id: string): Promise<IPlanetDetail> => {
   } as IPlanetDetail
 }
 
-export const getPlanetsByUrls = async (urls: string[] | IPlanet[]) => {
+export const getPlanetsByUrls = async (urls: (string | IPlanet)[]) => {
   const planets = await Promise.allSettled(urls.map(async (url: string | IPlanet) => {
     if (typeof url === 'object') return;
     const id = getId(url);

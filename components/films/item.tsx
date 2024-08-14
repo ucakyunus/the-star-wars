@@ -12,10 +12,10 @@ interface FilmItemProps {
 
 const Item = ({ film }: FilmItemProps) => {
   return (
-    <Grid item xs={6} sm={4} lg={3}>
+    <Grid item xs={12} sm={6} md={4} lg={3}>
       <ItemCard 
         href={`${navs.films.href}/${film.id}`} 
-        label={film.title} 
+        label={film.title}
         image={{  url: film.imageUrl }}
       />
     </Grid>

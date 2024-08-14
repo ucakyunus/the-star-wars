@@ -9,7 +9,7 @@ import { useInView } from "react-intersection-observer";
 import PeopleItem from "@/components/people/item";
 import { getPeople } from "@/services/people";
 
-import { IPersonCustom } from "@/types/people";
+import type { IPersonCustom } from "@/types/people";
 
 interface PeopleListProps {
   list: IPersonCustom[];

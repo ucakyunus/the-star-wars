@@ -9,7 +9,7 @@ import { useInView } from "react-intersection-observer";
 import SpecieItem from "@/components/species/item";
 import { getSpecies } from "@/services/species";
 
-import { ISpecieCustom } from "@/types/specie";
+import type { ISpecieCustom } from "@/types/specie";
 
 interface SpeciesListProps {
   list: ISpecieCustom[];

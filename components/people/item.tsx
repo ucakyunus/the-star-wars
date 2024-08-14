@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid";
 import ItemCard from "@/components/ui/cards/item-card";
 import { navs } from "@/utils/constants";
 
-import { IPersonCustom } from "@/types/people";
+import type { IPersonCustom } from "@/types/people";
 
 interface PeopleItemProps {
   person: IPersonCustom
@@ -12,7 +12,7 @@ interface PeopleItemProps {
 
 const Item = ({ person }: PeopleItemProps) => {
   return (
-    <Grid item xs={6} sm={4} lg={3}>
+    <Grid item xs={12} sm={6} md={4} lg={3}>
       <ItemCard 
         label={person.name} 
         href={`${navs.people.href}/${person.id}`} 

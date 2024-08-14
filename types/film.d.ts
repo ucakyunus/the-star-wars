@@ -1,8 +1,8 @@
-import { IPerson} from "@/types/people";
-import { IPlanet } from "@/types/planet";
-import { ISpecie } from "@/types/specie";
-import { IStarship } from "@/types/starship";
-import { IVehicle } from "@/types/vehicle";
+import type { IPerson} from "@/types/people";
+import type { IPlanet } from "@/types/planet";
+import type { ISpecie } from "@/types/specie";
+import type { IStarship } from "@/types/starship";
+import type { IVehicle } from "@/types/vehicle";
 
 export interface IFilm {
   characters: string[] | IPerson[];

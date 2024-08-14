@@ -21,7 +21,7 @@ const AvatarItem = ({ item, href }: AvatarItemProps) => (
       <Avatar alt={item.name} src={item.imageUrl} sx={{ width: 72, height: 72, textAlign: 'center' }}>
         <Typography component={"span"} fontSize={12}>No Image</Typography>
       </Avatar>
-      <Typography component={"span"} fontSize={14} textAlign="center">{item.name}</Typography>
+      <Typography component={"span"} fontSize={14} textAlign="center" color={"#039BE5"}>{item.name}</Typography>
     </Box>
   </Link>
 )

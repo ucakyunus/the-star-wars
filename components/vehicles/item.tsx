@@ -10,9 +10,9 @@ interface VehiclesItemProps {
   vehicle: IVehicleCustom
 }
 
-const VehiclesItem = ({ vehicle }: VehiclesItemProps) => {
+const Item = ({ vehicle }: VehiclesItemProps) => {
   return (
-    <Grid item xs={6} sm={4} lg={2.4}>
+    <Grid item xs={12} sm={4} lg={2.4}>
       <ItemCard 
         label={vehicle.name} 
         href={`${navs.vehicles.href}/${vehicle.id}`} 
@@ -25,4 +25,4 @@ const VehiclesItem = ({ vehicle }: VehiclesItemProps) => {
   )
 }
 
-export default memo(VehiclesItem);
+export default memo(Item);

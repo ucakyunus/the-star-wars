@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const VehiclesDetailPage = ({ params }: Props) => {  
-  return <VehicleDetail vehicleId={params.id!}/>
+  return <VehicleDetail vehicleId={params.id!} />
 }
 
 export default VehiclesDetailPage;

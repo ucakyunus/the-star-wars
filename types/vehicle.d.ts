@@ -1,5 +1,5 @@
-import { IPerson } from "@/types/people";
-import { IFilm } from "@/types/film";
+import type { IPerson } from "@/types/people";
+import type { IFilm } from "@/types/film";
 
 export interface IVehicle {
   cargo_capacity: string;

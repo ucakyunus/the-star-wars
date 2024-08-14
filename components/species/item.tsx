@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid";
 import ItemCard from "@/components/ui/cards/item-card";
 import { navs } from "@/utils/constants";
 
-import type { ISpecieCustom} from "@/types/specie";
+import type { ISpecieCustom } from "@/types/specie";
 
 interface SpeciesItemProps {
   specie: ISpecieCustom
@@ -12,7 +12,7 @@ interface SpeciesItemProps {
 
 const Item = ({ specie }: SpeciesItemProps) => {
   return (
-    <Grid item xs={6} sm={4} lg={3}>
+    <Grid item xs={12} sm={6} md={4} lg={3}>
       <ItemCard
         label={specie.name}
         href={`${navs.species.href}/${specie.id}`}

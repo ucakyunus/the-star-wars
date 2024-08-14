@@ -1,17 +1,20 @@
-import { IVehicleDetail } from "@/types/vehicle";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-import { fetchVehicleDetail } from "@/store/features/details/actions";
+import {fetchSpecieDetail, fetchVehicleDetail} from "@/store/features/details/actions";
+import type { IVehicleDetail } from "@/types/vehicle";
+import { ISpecieDetail } from "@/types/specie";
 
-export interface IAuthState {
+interface IDetailState {
   vehicleDetail: IVehicleDetail | null;
+  speciesDetail: ISpecieDetail | null;
   pending: boolean;
   error: boolean;
 }
 
-const initialState: IAuthState = {
+const initialState: IDetailState = {
   vehicleDetail: null,
+  speciesDetail: null,
   pending: true,
   error: false,
 };
@@ -19,11 +22,7 @@ const initialState: IAuthState = {
 export const detailsSlice = createSlice({
   name: "details",
   initialState,
-  reducers: {
-    setVehicleDetail: (state, action: PayloadAction<IVehicleDetail>) => {
-      state.vehicleDetail = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
     .addCase(fetchVehicleDetail.pending, (state) => {
@@ -39,8 +38,20 @@ export const detailsSlice = createSlice({
       state.error = true;
       state.pending = false;
     })
+    .addCase(fetchSpecieDetail.pending, (state) => {
+      state.pending = true;
+      state.error = false;
+    })
+    .addCase(fetchSpecieDetail.fulfilled, (state, action: PayloadAction<ISpecieDetail>) => {
+      state.pending = false;
+      state.error = false;
+      state.speciesDetail = action.payload;
+    })
+    .addCase(fetchSpecieDetail.rejected, (state) => {
+      state.error = true;
+      state.pending = false;
+    });
   }
 });
 
 export const detailsReducer = detailsSlice.reducer;
-export const { setVehicleDetail } = detailsSlice.actions;

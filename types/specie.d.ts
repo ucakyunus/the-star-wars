@@ -1,6 +1,6 @@
-import { IPlanet } from "@/types/planet";
-import { IPerson } from "@/types/people";
-import { IFilm } from "@/types/film";
+import type { IPlanet } from "@/types/planet";
+import type { IPerson } from "@/types/people";
+import type { IFilm } from "@/types/film";
 
 export interface ISpecie {
   average_height: string;

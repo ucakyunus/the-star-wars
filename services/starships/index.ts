@@ -1,5 +1,5 @@
 import { filterFulfilled, getId } from "@/utils/helper";
-import { getStarshipPicture } from "@/utils/constants";
+import { getStarshipPicture } from "@/utils/picture-urls";
 import { getFilmsByUrls } from "@/services/films";
 import { getPeopleByUrls } from "@/services/people";
 import { fetchData } from "@/utils/api";

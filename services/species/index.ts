@@ -1,7 +1,7 @@
 import { filterFulfilled, getId } from "@/utils/helper";
 import { getFilmsByUrls } from "@/services/films";
 import { getPeopleByUrls } from "@/services/people";
-import { getSpeciesPicture } from "@/utils/constants";
+import { getSpeciesPicture } from "@/utils/picture-urls";
 import { fetchData } from "@/utils/api";
 
 import type { ISpecie, ISpecieDetail, ISpecieResponse, ISpecieCustom } from "@/types/specie";

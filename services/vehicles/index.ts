@@ -1,7 +1,7 @@
 import { filterFulfilled, getId } from "@/utils/helper";
 import { getFilmsByUrls } from "@/services/films";
 import { getPeopleByUrls } from "@/services/people";
-import { getVehiclePicture } from "@/utils/constants";
+import { getVehiclePicture } from "@/utils/picture-urls";
 import { fetchData } from "@/utils/api";
 
 import type { IVehicle, IVehicleDetail, IVehicleResponse, IVehicleCustom } from "@/types/vehicle";

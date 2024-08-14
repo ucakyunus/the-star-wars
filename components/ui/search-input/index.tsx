@@ -6,7 +6,8 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from '@mui/icons-material/Search';
-import debounce from "@mui/utils/debounce";
+
+import { debounce } from "@/utils/helper";
 
 const debouncedHandleSearch = debounce((
   event: React.ChangeEvent<HTMLInputElement>, 
@@ -24,7 +25,7 @@ const debouncedHandleSearch = debounce((
   }
   
   replace(`${pathname}?${params.toString()}`);
-}, 500);
+}, 700);
 
 const SearchInput = () => {
   const searchParams = useSearchParams();

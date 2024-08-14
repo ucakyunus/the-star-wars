@@ -12,7 +12,7 @@ interface StarshipItemProps {
 
 const Item = ({ starship }: StarshipItemProps) => {
   return (
-    <Grid item xs={6} sm={3} lg={2.4}>
+    <Grid item xs={12} sm={4} lg={2.4}>
       <ItemCard 
         label={starship.name} 
         href={`${navs.starships.href}/${starship.id}`} 

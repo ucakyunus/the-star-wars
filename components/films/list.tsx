@@ -9,7 +9,7 @@ import { useInView } from "react-intersection-observer";
 import FilmItem from "@/components/films/item";
 import { getFilms } from "@/services/films";
 
-import { IFilmCustom } from "@/types/film";
+import type { IFilmCustom } from "@/types/film";
 
 interface FilmsListProps {
   list: IFilmCustom[];

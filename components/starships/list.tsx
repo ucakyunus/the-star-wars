@@ -10,7 +10,7 @@ import { useInView } from "react-intersection-observer";
 import StarshipItem from "@/components/starships/item";
 import { getStarships } from "@/services/starships";
 
-import { IStarshipCustom } from "@/types/starship";
+import type { IStarshipCustom } from "@/types/starship";
 
 interface StarshipListProps {
   list: IStarshipCustom[];

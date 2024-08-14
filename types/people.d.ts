@@ -1,5 +1,5 @@
-import { IFilm } from "@/types/film";
-import { IPlanet } from "@/types/planet";
+import type { IFilm } from "@/types/film";
+import type { IPlanet } from "@/types/planet";
 
 export interface IPerson {
   birth_year: string;
@@ -34,9 +34,10 @@ export interface IPersonResponse {
 
 export interface IPersonDetail extends IPerson {
   imageUrl: string;
-  films: { id: string; title: string; imageUrl: string}[];
-  species: { id: string; name: string; imageUrl: string}[];
-  starships: { id: string; name: string; imageUrl: string}[];
-  vehicles: { id: string; name: string; imageUrl: string}[];
+  homeworld: { id: string; name: string; imageUrl: string };
+  films: { id: string; title: string; imageUrl: string }[];
+  species: { id: string; name: string; imageUrl: string }[];
+  starships: { id: string; name: string; imageUrl: string }[];
+  vehicles: { id: string; name: string; imageUrl: string }[];
 }
 

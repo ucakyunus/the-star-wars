@@ -4,11 +4,10 @@ import { getStarshipsByUrls } from "@/services/starships";
 import { getPlanetsByUrls } from "@/services/planets";
 import { getSpeciesByUrls } from "@/services/species";
 import { getVehiclesByUrls } from "@/services/vehicles";
-import { getFilmPicture } from "@/utils/constants";
+import { getFilmPicture } from "@/utils/picture-urls";
 import { fetchData } from "@/utils/api";
 
 import type { IFilm, IFilmDetail, IFilmResponse, IFilmCustom } from "@/types/film";
-
 
 export const getFilms = async ({ page = 1, query }: { page: number, query?: string }) => {
   try {

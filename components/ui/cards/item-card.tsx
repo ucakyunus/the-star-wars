@@ -1,9 +1,8 @@
-
 import Link from "next/link";
 import MuiCard, { CardProps as MuiCardProps } from '@mui/material/Card';
+import CardMedia from "@mui/material/CardMedia";
 import CardContent from '@mui/material/CardContent';
-import { CardMedia, Typography } from "@mui/material";
-import { PLACEHOLDER_URL } from "@/utils/constants";
+import Typography from "@mui/material/Typography";
 
 interface CardProps extends MuiCardProps {
   href: string;

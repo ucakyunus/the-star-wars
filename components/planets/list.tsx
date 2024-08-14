@@ -9,7 +9,7 @@ import { useInView } from "react-intersection-observer";
 import PlanetItem from "@/components/planets/item";
 import { getPlanets } from "@/services/planets";
 
-import { IPlanetCustom } from "@/types/planet";
+import type { IPlanetCustom } from "@/types/planet";
 
 interface PlanetListProps {
   list: IPlanetCustom[];

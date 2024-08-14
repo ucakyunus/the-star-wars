@@ -3,11 +3,11 @@ import { getFilmsByUrls } from "@/services/films";
 import { getStarshipsByUrls } from "@/services/starships";
 import { getSpeciesByUrls } from "@/services/species";
 import { getVehiclesByUrls } from "@/services/vehicles";
-import { getPeoplePicture } from "@/utils/constants";
+import { getPeoplePicture } from "@/utils/picture-urls";
 import { fetchData } from "@/utils/api";
+import { getPlanetsByUrls } from "@/services/planets";
 
 import type { IPerson, IPersonDetail, IPersonResponse, IPersonCustom } from "@/types/people";
-import { get } from "http";
 
 export const getPeople = async ({ page = 1, query }: { page: number, query?: string }) => {
   try {
@@ -25,7 +25,7 @@ export const getPeople = async ({ page = 1, query }: { page: number, query?: str
       imageUrl: getPeoplePicture(getId(person.url))
     })) as IPersonCustom[];
     
-    return {...data, results};
+    return { ...data, results };
   } catch (err) {
     console.error(err);
     return {
@@ -40,16 +40,18 @@ export const getPeople = async ({ page = 1, query }: { page: number, query?: str
 export const getPerson = async (id: string): Promise<IPersonDetail> => {
   const data = await fetchData<IPerson>(`people/${id}`);
   
-  const [films, species, starships, vehicles] = await Promise.all([
+  const [films, species, starships, vehicles, homeworld] = await Promise.all([
     getFilmsByUrls(data.films),
     getSpeciesByUrls(data.species),
     getStarshipsByUrls(data.starships),
-    getVehiclesByUrls(data.vehicles)
+    getVehiclesByUrls(data.vehicles),
+    getPlanetsByUrls([data.homeworld])
   ]);
   
   return {
     ...data,
     imageUrl: getPeoplePicture(id),
+    homeworld: homeworld[0],
     films,
     species,
     starships,
@@ -57,7 +59,7 @@ export const getPerson = async (id: string): Promise<IPersonDetail> => {
   } as IPersonDetail;
 }
 
-export const getPeopleByUrls = async (urls: string[] | IPerson[]) => {
+export const getPeopleByUrls = async (urls: (string | IPerson)[]) => {
   const people = await Promise.allSettled(urls.map(async (url: string | IPerson) => {
     if (typeof url === 'object') return;
     const id = getId(url);

@@ -21,7 +21,7 @@ export const getId = (url: string): string => {
 export const filterFulfilled = <T>(results: PromiseSettledResult<T>[]): T[] =>
   results.filter((result): result is PromiseFulfilledResult<T> => result.status === 'fulfilled').map(result => result.value);
 
-const debounce = <F extends (...args: any[]) => void>(func: F, wait: number): F => {
+export const debounce = <F extends (...args: any[]) => void>(func: F, wait: number): F => {
   let timeout: ReturnType<typeof setTimeout>;
   return ((...args: Parameters<F>) => {
     clearTimeout(timeout);

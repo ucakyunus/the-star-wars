@@ -9,7 +9,7 @@ import { useInView } from "react-intersection-observer";
 import VehiclesItem from "@/components/vehicles/item";
 import { getVehicles } from "@/services/vehicles";
 
-import { IVehicleCustom } from "@/types/vehicle";
+import type { IVehicleCustom } from "@/types/vehicle";
 
 interface VehiclesListProps {
   list: IVehicleCustom[];
@@ -17,7 +17,7 @@ interface VehiclesListProps {
   query: string;
 }
 
-const VehiclesList = ({ list, hasMore, query }: VehiclesListProps) => {
+const List = ({ list, hasMore, query }: VehiclesListProps) => {
   const { ref, inView } = useInView();
   
   const [vehicles, setVehicles] = useState<IVehicleCustom[]>(list);
@@ -60,4 +60,4 @@ const VehiclesList = ({ list, hasMore, query }: VehiclesListProps) => {
   );
 }
 
-export default memo(VehiclesList);
+export default memo(List);
