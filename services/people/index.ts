@@ -1,10 +1,12 @@
-import { fetchData, filterFulfilled, getId } from "@/utils/helper";
+import { filterFulfilled, getId } from "@/utils/helper";
 import { getFilmsByUrls } from "@/services/films";
 import { getStarshipsByUrls } from "@/services/starships";
 import { getSpeciesByUrls } from "@/services/species";
 import { getVehiclesByUrls } from "@/services/vehicles";
+import { getPeoplePicture } from "@/utils/constants";
+import { fetchData } from "@/utils/api";
 
-import { IPerson, IPersonDetail, IPersonResponse, IPersonWithId } from "@/types/people";
+import type { IPerson, IPersonDetail, IPersonResponse, IPersonWithId } from "@/types/people";
 
 export const getPeople = async ({ page = 1, query }: { page: number, query?: string }) => {
   try {
@@ -45,6 +47,7 @@ export const getPerson = async (id: string): Promise<IPersonDetail> => {
   
   return {
     ...data,
+    imageUrl: getPeoplePicture(id),
     films,
     species,
     starships,
@@ -57,7 +60,7 @@ export const getPeopleByUrls = async (urls: string[] | IPerson[]) => {
     if (typeof url === 'object') return;
     const id = getId(url);
     const response = await fetchData<IPerson>(url);
-    return { id, name: response.name };
+    return { id, name: response.name, imageUrl: getPeoplePicture(id) };
   }));
   
   return filterFulfilled(people);

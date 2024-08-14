@@ -34,7 +34,8 @@ export interface IStarshipResponse {
 }
 
 export interface IStarshipDetail extends IStarship {
-  films: { id: string; title: string }[];
-  pilots: { id: string; name: string }[];
+  imageUrl: string;
+  films: { id: string; title: string, imageUrl: string }[];
+  pilots: { id: string; name: string, imageUrl: string }[];
 }
 

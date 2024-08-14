@@ -33,10 +33,11 @@ export interface IFilmResponse {
 }
 
 interface IFilmDetail extends IFilm {
-  characters: { id: string; name: string; }[];
-  planets: { id: string; name: string; }[];
-  species: { id: string; name: string; }[];
-  starships: { id: string; name: string; }[];
-  vehicles: { id: string; name: string; }[];
+  imageUrl: string;
+  characters: { id: string; name: string; imageUrl: string }[];
+  planets: { id: string; name: string; imageUrl: string }[];
+  species: { id: string; name: string; imageUrl: string }[];
+  starships: { id: string; name: string; imageUrl: string }[];
+  vehicles: { id: string; name: string; imageUrl: string }[];
 }
 

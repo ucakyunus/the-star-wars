@@ -32,7 +32,8 @@ export interface IVehicleResponse {
 }
 
 export interface IVehicleDetail extends IVehicle {
-  films: { id: string; title: string; }[];
-  pilots: { id: string; name: string; }[];
+  imageUrl: string;
+  films: { id: string; title: string; imageUrl: string}[];
+  pilots: { id: string; name: string; imageUrl: string}[];
 }
 

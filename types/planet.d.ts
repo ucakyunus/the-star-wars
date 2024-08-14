@@ -30,6 +30,7 @@ export interface IPlanetResponse {
 }
 
 export interface IPlanetDetail extends IPlanet {
-  films: { id: string; title: string; }[];
-  residents: { id: string; name: string; }[];
+  imageUrl: string;
+  films: { id: string; title: string; imageUrl: string }[];
+  residents: { id: string; name: string; imageUrl: string }[];
 }

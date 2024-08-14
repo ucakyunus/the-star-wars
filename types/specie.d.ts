@@ -32,6 +32,7 @@ export interface ISpecieResponse {
 }
 
 export interface ISpecieDetail extends ISpecie {
-  people: { id: string; name: string; }[];
-  films: { id: string; title: string; }[];
+  imageUrl: string
+  people: { id: string; name: string; imageUrl: string }[];
+  films: { id: string; title: string; imageUrl: string }[];
 }

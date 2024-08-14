@@ -1,8 +1,10 @@
-import { fetchData, filterFulfilled, getId } from "@/utils/helper";
+import { filterFulfilled, getId } from "@/utils/helper";
 import { getFilmsByUrls } from "@/services/films";
 import { getPeopleByUrls } from "@/services/people";
+import { getVehiclePicture } from "@/utils/constants";
+import { fetchData } from "@/utils/api";
 
-import { IVehicle, IVehicleDetail, IVehicleResponse, IVehicleWithId } from "@/types/vehicle";
+import type { IVehicle, IVehicleDetail, IVehicleResponse, IVehicleWithId } from "@/types/vehicle";
 
 
 export const getVehicles = async ({ page = 1, query }: { page: number, query?: string }) => {
@@ -42,6 +44,7 @@ export const getVehicle = async (id: string): Promise<IVehicleDetail> => {
   
   return {
     ...data,
+    imageUrl: getVehiclePicture(id),
     films,
     pilots
   } as IVehicleDetail;
@@ -52,7 +55,7 @@ export const getVehiclesByUrls = async (urls: string[] | IVehicle[]) => {
     if (typeof url === 'object') return;
     const id = getId(url);
     const response = await fetchData<IVehicle>(url);
-    return { id, name: response.name };
+    return { id, name: response.name, imageUrl: getVehiclePicture(id) };
   }));
   
   return filterFulfilled(vehicles);

@@ -1,8 +1,10 @@
-import { fetchData, filterFulfilled, getId } from "@/utils/helper";
+import { filterFulfilled, getId } from "@/utils/helper";
 import { getFilmsByUrls} from "@/services/films";
 import { getPeopleByUrls } from "@/services/people";
+import { getPlanetPicture } from "@/utils/constants";
+import { fetchData } from "@/utils/api";
 
-import { IPlanet, IPlanetDetail, IPlanetResponse, IPlanetWithId } from "@/types/planet";
+import type { IPlanet, IPlanetDetail, IPlanetResponse, IPlanetWithId } from "@/types/planet";
 
 export const getPlanets = async ({ page = 1, query }: { page: number, query?: string }) => {
   try {
@@ -41,6 +43,7 @@ export const getPlanet = async (id: string): Promise<IPlanetDetail> => {
   
   return {
     ...data,
+    imageUrl: getPlanetPicture(id),
     films,
     residents
   } as IPlanetDetail
@@ -51,7 +54,7 @@ export const getPlanetsByUrls = async (urls: string[] | IPlanet[]) => {
     if (typeof url === 'object') return;
     const id = getId(url);
     const response = await fetchData<IPlanet>(url);
-    return { id, name: response.name };
+    return { id, name: response.name, imageUrl: getPlanetPicture(id) };
   }));
   
   return filterFulfilled(planets);

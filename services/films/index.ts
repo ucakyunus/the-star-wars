@@ -1,11 +1,13 @@
-import { getId, fetchData, filterFulfilled } from "@/utils/helper";
+import { getId, filterFulfilled } from "@/utils/helper";
 import { getPeopleByUrls } from "@/services/people";
 import { getStarshipsByUrls } from "@/services/starships";
 import { getPlanetsByUrls } from "@/services/planets";
 import { getSpeciesByUrls } from "@/services/species";
 import { getVehiclesByUrls } from "@/services/vehicles";
+import { getFilmCover } from "@/utils/constants";
+import { fetchData } from "@/utils/api";
 
-import { IFilm, IFilmDetail, IFilmResponse, IFilmWithId } from "@/types/film";
+import type { IFilm, IFilmDetail, IFilmResponse, IFilmWithId } from "@/types/film";
 
 
 export const getFilms = async ({ page = 1, query }: { page: number, query?: string }) => {
@@ -50,6 +52,7 @@ export const getFilm = async (id: string): Promise<IFilmDetail> => {
   
   return {
     ...data,
+    imageUrl: getFilmCover(id),
     characters,
     planets,
     species,
@@ -63,7 +66,7 @@ export const getFilmsByUrls = async (urls: string[] | IFilm[]) => {
     if (typeof url === 'object') return;
     const id = getId(url);
     const response = await fetchData<IFilm>(url);
-    return { id, title: response.title };
+    return { id, title: response.title, imageUrl: getFilmCover(id) };
   }));
   
   return filterFulfilled(films);

@@ -32,9 +32,10 @@ export interface IPersonResponse {
 }
 
 export interface IPersonDetail extends IPerson {
-  films: { id: string; title: string; }[];
-  species: { id: string; name: string; }[];
-  starships: { id: string; name: string; }[];
-  vehicles: { id: string; name: string; }[];
+  imageUrl: string;
+  films: { id: string; title: string; imageUrl: string}[];
+  species: { id: string; name: string; imageUrl: string}[];
+  starships: { id: string; name: string; imageUrl: string}[];
+  vehicles: { id: string; name: string; imageUrl: string}[];
 }
 

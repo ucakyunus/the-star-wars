@@ -1,8 +1,10 @@
-import { fetchData, filterFulfilled, getId } from "@/utils/helper";
+import { filterFulfilled, getId } from "@/utils/helper";
+import { getStarshipPicture } from "@/utils/constants";
 import { getFilmsByUrls } from "@/services/films";
 import { getPeopleByUrls } from "@/services/people";
+import { fetchData } from "@/utils/api";
 
-import { IStarship, IStarshipDetail, IStarshipResponse, IStarshipWithId } from "@/types/starship";
+import type { IStarship, IStarshipDetail, IStarshipResponse, IStarshipWithId } from "@/types/starship";
 
 
 export const getStarships = async ({ page = 1, query }: { page: number, query?: string }) => {
@@ -43,6 +45,7 @@ export const getStarship = async (id: string): Promise<IStarshipDetail> => {
   
   return {
     ...data,
+    imageUrl: getStarshipPicture(id),
     films,
     pilots
   } as IStarshipDetail;
@@ -53,7 +56,7 @@ export const getStarshipsByUrls = async (urls: string[] | IStarship[]) => {
     if (typeof url === 'object') return;
     const id = getId(url);
     const response = await fetchData<IStarship>(url);
-    return { id, name: response.name };
+    return { id, name: response.name, imageUrl: getStarshipPicture(id) };
   }));
   
   return filterFulfilled(starships);

@@ -1,8 +1,10 @@
-import { fetchData, filterFulfilled, getId } from "@/utils/helper";
+import { filterFulfilled, getId } from "@/utils/helper";
 import { getFilmsByUrls } from "@/services/films";
 import { getPeopleByUrls } from "@/services/people";
+import { getSpeciesPicture } from "@/utils/constants";
+import { fetchData } from "@/utils/api";
 
-import { ISpecie, ISpecieDetail, ISpecieResponse, ISpecieWithId } from "@/types/specie";
+import type { ISpecie, ISpecieDetail, ISpecieResponse, ISpecieWithId } from "@/types/specie";
 
 export const getSpecies = async ({ page = 1, query }: { page: number, query?: string }) => {
   try {
@@ -40,6 +42,7 @@ export const getSpecie = async (id: string): Promise<ISpecieDetail> => {
   
   return {
     ...data,
+    imageUrl: getSpeciesPicture(id),
     films,
     people
   } as ISpecieDetail;
@@ -50,7 +53,7 @@ export const getSpeciesByUrls = async (urls: string[] | ISpecie[]) => {
     if (typeof url === 'object') return;
     const id = getId(url);
     const response = await fetchData<ISpecie>(url);
-    return { id, name: response.name };
+    return { id, name: response.name, imageUrl: getSpeciesPicture(id) };
   }));
   
   return filterFulfilled(species);
