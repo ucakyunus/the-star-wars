@@ -6,7 +6,7 @@ import Divider from "@mui/material/Divider";
 import Rating from "@mui/material/Rating";
 import Chip from "@mui/material/Chip";
 
-import Card from "@/components/ui/card";
+import DetailCard from "@/components/ui/cards/detail-card";
 import { formatNumber, toTitleCase } from "@/utils/helper";
 
 import { IStarshipDetail } from "@/types/starship";
@@ -18,7 +18,7 @@ interface StarshipDetailProps {
 
 const Detail = ({ starship }: StarshipDetailProps) => {
   return (
-    <Card title={starship.name} sx={{ width: '100%', mb: 5 }}>
+    <DetailCard title={starship.name} sx={{ width: '100%', mb: 5 }}>
       <Box display={"flex"} flexDirection={"column"} gap={0.5}>
         <Typography fontWeight={"bolder"} textTransform={"uppercase"}>Model</Typography>
         <Typography>{starship.model}</Typography>
@@ -142,7 +142,7 @@ const Detail = ({ starship }: StarshipDetailProps) => {
           ))}
         </>
       )}
-    </Card>
+    </DetailCard>
   );
 }
 

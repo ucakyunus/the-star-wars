@@ -9,10 +9,10 @@ import { useInView } from "react-intersection-observer";
 import PlanetItem from "@/components/planets/item";
 import { getPlanets } from "@/services/planets";
 
-import { IPlanetWithId } from "@/types/planet";
+import { IPlanetCustom } from "@/types/planet";
 
 interface PlanetListProps {
-  list: IPlanetWithId[];
+  list: IPlanetCustom[];
   hasMore: boolean;
   query: string;
 }
@@ -20,7 +20,7 @@ interface PlanetListProps {
 const List = ({ list, hasMore, query }: PlanetListProps) => {
   const { ref, inView } = useInView();
   
-  const [planets, setPlanets] = useState<IPlanetWithId[]>(list);
+  const [planets, setPlanets] = useState<IPlanetCustom[]>(list);
   const [pageNumber, setPageNumber] = useState<number>(2);
   const [hasNext, setHasNext] = useState<boolean>(hasMore);
   
@@ -46,7 +46,7 @@ const List = ({ list, hasMore, query }: PlanetListProps) => {
       </Typography>
 
       <Grid container spacing={2}>
-        {planets.map((planet: IPlanetWithId) => (
+        {planets.map((planet: IPlanetCustom) => (
           <PlanetItem planet={planet} key={planet.name} />
         ))}
       </Grid>

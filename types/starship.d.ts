@@ -22,8 +22,9 @@ export interface IStarship {
   url: string;
 }
 
-export interface IStarshipWithId extends IStarship {
+export interface IStarshipCustom extends IStarship {
   id: string;
+  imageUrl: string;
 }
 
 export interface IStarshipResponse {

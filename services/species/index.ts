@@ -4,7 +4,7 @@ import { getPeopleByUrls } from "@/services/people";
 import { getSpeciesPicture } from "@/utils/constants";
 import { fetchData } from "@/utils/api";
 
-import type { ISpecie, ISpecieDetail, ISpecieResponse, ISpecieWithId } from "@/types/specie";
+import type { ISpecie, ISpecieDetail, ISpecieResponse, ISpecieCustom } from "@/types/specie";
 
 export const getSpecies = async ({ page = 1, query }: { page: number, query?: string }) => {
   try {
@@ -17,8 +17,9 @@ export const getSpecies = async ({ page = 1, query }: { page: number, query?: st
     
     const results = data.results.map((specie: ISpecie) => ({
       ...specie,
-      id: getId(specie.url)
-    })) as ISpecieWithId[];
+      id: getId(specie.url),
+      imageUrl: getSpeciesPicture(getId(specie.url))
+    })) as ISpecieCustom[];
     
     return { ...data, results };
   } catch (err) {

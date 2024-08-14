@@ -4,7 +4,7 @@ import { getPeopleByUrls } from "@/services/people";
 import { getVehiclePicture } from "@/utils/constants";
 import { fetchData } from "@/utils/api";
 
-import type { IVehicle, IVehicleDetail, IVehicleResponse, IVehicleWithId } from "@/types/vehicle";
+import type { IVehicle, IVehicleDetail, IVehicleResponse, IVehicleCustom } from "@/types/vehicle";
 
 
 export const getVehicles = async ({ page = 1, query }: { page: number, query?: string }) => {
@@ -19,8 +19,9 @@ export const getVehicles = async ({ page = 1, query }: { page: number, query?: s
     
     const results = data.results.map((vehicle: IVehicle) => ({
       ...vehicle,
-      id: getId(vehicle.url)
-    })) as IVehicleWithId[]
+      id: getId(vehicle.url),
+      imageUrl: getVehiclePicture(getId(vehicle.url))
+    })) as IVehicleCustom[]
     
     return { ...data, results }
   } catch (err) {

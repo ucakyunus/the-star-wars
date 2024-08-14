@@ -4,10 +4,10 @@ import { getStarshipsByUrls } from "@/services/starships";
 import { getPlanetsByUrls } from "@/services/planets";
 import { getSpeciesByUrls } from "@/services/species";
 import { getVehiclesByUrls } from "@/services/vehicles";
-import { getFilmCover } from "@/utils/constants";
+import { getFilmPicture } from "@/utils/constants";
 import { fetchData } from "@/utils/api";
 
-import type { IFilm, IFilmDetail, IFilmResponse, IFilmWithId } from "@/types/film";
+import type { IFilm, IFilmDetail, IFilmResponse, IFilmCustom } from "@/types/film";
 
 
 export const getFilms = async ({ page = 1, query }: { page: number, query?: string }) => {
@@ -21,8 +21,9 @@ export const getFilms = async ({ page = 1, query }: { page: number, query?: stri
     const data = await fetchData<IFilmResponse>(url);
     const results = data.results?.map((film: IFilm) => ({
       ...film,
-      id: getId(film.url)
-    })) as IFilmWithId[];
+      id: getId(film.url),
+      imageUrl: getFilmPicture(getId(film.url))
+    })) as IFilmCustom[];
     
     return {
       ...data,
@@ -52,7 +53,7 @@ export const getFilm = async (id: string): Promise<IFilmDetail> => {
   
   return {
     ...data,
-    imageUrl: getFilmCover(id),
+    imageUrl: getFilmPicture(id),
     characters,
     planets,
     species,
@@ -66,7 +67,7 @@ export const getFilmsByUrls = async (urls: string[] | IFilm[]) => {
     if (typeof url === 'object') return;
     const id = getId(url);
     const response = await fetchData<IFilm>(url);
-    return { id, title: response.title, imageUrl: getFilmCover(id) };
+    return { id, title: response.title, imageUrl: getFilmPicture(id) };
   }));
   
   return filterFulfilled(films);

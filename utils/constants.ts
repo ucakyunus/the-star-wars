@@ -10,6 +10,7 @@ const VEHICLES_PHOTO_URL = 'https://starwars-visualguide.com/assets/img/vehicles
 
 const SPECIES_PHOTO_URL = 'https://starwars-visualguide.com/assets/img/species';
 
+export const PLACEHOLDER_URL = 'https://starwars-visualguide.com/assets/img/placeholder.jpg'
 export interface INavItem {
   title: string;
   href: string;
@@ -42,7 +43,7 @@ export const navs = {
   }
 }
 
-export const getFilmCover = (id: number | string): string => {
+export const getFilmPicture = (id: number | string): string => {
   return `${FILM_PHOTO_URL}/${id}.jpg`
 }
 

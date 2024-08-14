@@ -4,7 +4,7 @@ import { getPeopleByUrls } from "@/services/people";
 import { getPlanetPicture } from "@/utils/constants";
 import { fetchData } from "@/utils/api";
 
-import type { IPlanet, IPlanetDetail, IPlanetResponse, IPlanetWithId } from "@/types/planet";
+import type { IPlanet, IPlanetDetail, IPlanetResponse, IPlanetCustom } from "@/types/planet";
 
 export const getPlanets = async ({ page = 1, query }: { page: number, query?: string }) => {
   try {
@@ -18,8 +18,9 @@ export const getPlanets = async ({ page = 1, query }: { page: number, query?: st
     
     const results = data.results?.map((planet: IPlanet) => ({
       ...planet,
-      id: getId(planet.url)
-    })) as IPlanetWithId[]
+      id: getId(planet.url),
+      imageUrl: getPlanetPicture(getId(planet.url))
+    })) as IPlanetCustom[]
     
     return { ...data,  results };
   } catch (err) {

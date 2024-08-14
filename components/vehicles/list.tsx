@@ -9,10 +9,10 @@ import { useInView } from "react-intersection-observer";
 import VehiclesItem from "@/components/vehicles/item";
 import { getVehicles } from "@/services/vehicles";
 
-import { IVehicleWithId } from "@/types/vehicle";
+import { IVehicleCustom } from "@/types/vehicle";
 
 interface VehiclesListProps {
-  list: IVehicleWithId[];
+  list: IVehicleCustom[];
   hasMore: boolean;
   query: string;
 }
@@ -20,7 +20,7 @@ interface VehiclesListProps {
 const VehiclesList = ({ list, hasMore, query }: VehiclesListProps) => {
   const { ref, inView } = useInView();
   
-  const [vehicles, setVehicles] = useState<IVehicleWithId[]>(list);
+  const [vehicles, setVehicles] = useState<IVehicleCustom[]>(list);
   const [pageNumber, setPageNumber] = useState<number>(2);
   const [hasNext, setHasNext] = useState<boolean>(hasMore);
   
@@ -46,13 +46,13 @@ const VehiclesList = ({ list, hasMore, query }: VehiclesListProps) => {
       </Typography>
 
       <Grid container spacing={2}>
-        {vehicles.map((vehicle: IVehicleWithId) => (
+        {vehicles.map((vehicle: IVehicleCustom) => (
           <VehiclesItem vehicle={vehicle} key={vehicle.name} />
         ))}
       </Grid>
 
       {hasNext && (
-        <Box ref={ref} mt={2}>
+        <Box ref={ref} mt={2} textAlign="center">
           Loading...
         </Box>
       )}

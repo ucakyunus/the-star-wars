@@ -1,7 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['starwars-visualguide.com'],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'starwars-visualguide.com'
+      },
+    ]
   },
 };
 

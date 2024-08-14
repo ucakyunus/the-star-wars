@@ -18,8 +18,9 @@ export interface IPlanet {
   url: string;
 }
 
-export interface IPlanetWithId extends IPlanet {
+export interface IPlanetCustom extends IPlanet {
   id: string;
+  imageUrl: string;
 }
 
 export interface IPlanetResponse {

@@ -21,8 +21,9 @@ export interface IFilm {
   vehicles: string[] | IVehicle[];
 }
 
-export interface IFilmWithId extends IFilm {
+export interface IFilmCustom extends IFilm {
   id: string;
+  imageUrl: string;
 }
 
 export interface IFilmResponse {

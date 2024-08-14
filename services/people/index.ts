@@ -6,7 +6,8 @@ import { getVehiclesByUrls } from "@/services/vehicles";
 import { getPeoplePicture } from "@/utils/constants";
 import { fetchData } from "@/utils/api";
 
-import type { IPerson, IPersonDetail, IPersonResponse, IPersonWithId } from "@/types/people";
+import type { IPerson, IPersonDetail, IPersonResponse, IPersonCustom } from "@/types/people";
+import { get } from "http";
 
 export const getPeople = async ({ page = 1, query }: { page: number, query?: string }) => {
   try {
@@ -20,8 +21,9 @@ export const getPeople = async ({ page = 1, query }: { page: number, query?: str
     
     const results = data.results.map((person: IPerson) => ({
       ...person,
-      id: getId(person.url)
-    })) as IPersonWithId[];
+      id: getId(person.url),
+      imageUrl: getPeoplePicture(getId(person.url))
+    })) as IPersonCustom[];
     
     return {...data, results};
   } catch (err) {

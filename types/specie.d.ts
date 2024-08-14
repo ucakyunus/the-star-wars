@@ -20,8 +20,9 @@ export interface ISpecie {
   url: string;
 }
 
-export interface ISpecieWithId extends ISpecie {
+export interface ISpecieCustom extends ISpecie {
   id: string;
+  imageUrl: string;
 }
 
 export interface ISpecieResponse {

@@ -1,7 +1,8 @@
 import { IVehicleDetail } from "@/types/vehicle";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { fetchVehicleDetail } from "./actions";
+
+import { fetchVehicleDetail } from "@/store/features/details/actions";
 
 export interface IAuthState {
   vehicleDetail: IVehicleDetail | null;

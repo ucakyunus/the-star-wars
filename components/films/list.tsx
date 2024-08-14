@@ -9,10 +9,10 @@ import { useInView } from "react-intersection-observer";
 import FilmItem from "@/components/films/item";
 import { getFilms } from "@/services/films";
 
-import { IFilmWithId } from "@/types/film";
+import { IFilmCustom } from "@/types/film";
 
 interface FilmsListProps {
-  list: IFilmWithId[];
+  list: IFilmCustom[];
   hasMore: boolean;
   query: string;
 }
@@ -20,7 +20,7 @@ interface FilmsListProps {
 const List = ({ list, hasMore, query }: FilmsListProps) => {
   const { ref, inView } = useInView();
   
-  const [films, setFilms] = useState<IFilmWithId[]>(list);
+  const [films, setFilms] = useState<IFilmCustom[]>(list);
   const [pageNumber, setPageNumber] = useState<number>(2);
   const [hasNext, setHasNext] = useState<boolean>(hasMore);
   
@@ -46,13 +46,13 @@ const List = ({ list, hasMore, query }: FilmsListProps) => {
       </Typography>
 
       <Grid container spacing={2}>
-        {films.map((film: IFilmWithId) => (
+        {films.map((film: IFilmCustom) => (
           <FilmItem key={film.title} film={film} />
         ))}
       </Grid>
 
       {hasNext && (
-        <Box ref={ref} mt={2}>
+        <Box ref={ref} mt={2} textAlign="center">
           Loading...
         </Box>
       )}

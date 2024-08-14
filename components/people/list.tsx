@@ -9,10 +9,10 @@ import { useInView } from "react-intersection-observer";
 import PeopleItem from "@/components/people/item";
 import { getPeople } from "@/services/people";
 
-import { IPersonWithId } from "@/types/people";
+import { IPersonCustom } from "@/types/people";
 
 interface PeopleListProps {
-  list: IPersonWithId[];
+  list: IPersonCustom[];
   hasMore: boolean;
   query: string;
 }
@@ -20,7 +20,7 @@ interface PeopleListProps {
 const List = ({ list, hasMore, query }: PeopleListProps) => {
   const { ref, inView } = useInView();
   
-  const [people, setPeople] = useState<IPersonWithId[]>(list);
+  const [people, setPeople] = useState<IPersonCustom[]>(list);
   const [pageNumber, setPageNumber] = useState<number>(2);
   const [hasNext, setHasNext] = useState<boolean>(hasMore);
   
@@ -46,13 +46,13 @@ const List = ({ list, hasMore, query }: PeopleListProps) => {
       </Typography>
 
       <Grid container spacing={2}>
-        {people.map((person: IPersonWithId) => (
+        {people.map((person: IPersonCustom) => (
           <PeopleItem person={person} key={person.name} />
         ))}
       </Grid>
 
       {hasNext && (
-        <Box ref={ref} mt={2}>
+        <Box ref={ref} mt={2} textAlign="center">
           Loading...
         </Box>
       )}

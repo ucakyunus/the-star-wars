@@ -1,5 +1,5 @@
-import { store } from "@/redux/store";
-import rootReducer from "@/redux/rootReducer";
+import { store } from "@/store";
+import rootReducer from "@/store/rootReducer";
 
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;

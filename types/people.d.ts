@@ -20,8 +20,9 @@ export interface IPerson {
   vehicles: string[] | IVehicle[];
 }
 
-export interface IPersonWithId extends IPerson {
+export interface IPersonCustom extends IPerson {
   id: string;
+  imageUrl: string;
 }
 
 export interface IPersonResponse {

@@ -10,10 +10,10 @@ import { useInView } from "react-intersection-observer";
 import StarshipItem from "@/components/starships/item";
 import { getStarships } from "@/services/starships";
 
-import { IStarshipWithId } from "@/types/starship";
+import { IStarshipCustom } from "@/types/starship";
 
 interface StarshipListProps {
-  list: IStarshipWithId[];
+  list: IStarshipCustom[];
   hasMore: boolean;
   query: string;
 }
@@ -21,7 +21,7 @@ interface StarshipListProps {
 const List = ({ list, hasMore, query }: StarshipListProps) => {
   const { ref, inView } = useInView();
   
-  const [starships, setStarships] = useState<IStarshipWithId[]>(list);
+  const [starships, setStarships] = useState<IStarshipCustom[]>(list);
   const [pageNumber, setPageNumber] = useState<number>(2);
   const [hasNext, setHasNext] = useState<boolean>(hasMore);
   
@@ -47,13 +47,13 @@ const List = ({ list, hasMore, query }: StarshipListProps) => {
       </Typography>
 
       <Grid container spacing={2}>
-        {starships.map((starship: IStarshipWithId) => (
+        {starships.map((starship: IStarshipCustom) => (
           <StarshipItem starship={starship} key={starship.name} />
         ))}
       </Grid>
 
       {hasNext && (
-        <Box ref={ref} mt={2}>
+        <Box ref={ref} mt={2} textAlign="center">
           Loading...
         </Box>
       )}

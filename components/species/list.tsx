@@ -9,10 +9,10 @@ import { useInView } from "react-intersection-observer";
 import SpecieItem from "@/components/species/item";
 import { getSpecies } from "@/services/species";
 
-import { ISpecieWithId } from "@/types/specie";
+import { ISpecieCustom } from "@/types/specie";
 
 interface SpeciesListProps {
-  list: ISpecieWithId[];
+  list: ISpecieCustom[];
   hasMore: boolean;
   query: string;
 }
@@ -20,7 +20,7 @@ interface SpeciesListProps {
 const List = ({ list, hasMore, query }: SpeciesListProps) => {
   const { ref, inView } = useInView();
   
-  const [species, setSpecies] = useState<ISpecieWithId[]>(list);
+  const [species, setSpecies] = useState<ISpecieCustom[]>(list);
   const [pageNumber, setPageNumber] = useState<number>(2);
   const [hasNext, setHasNext] = useState<boolean>(hasMore);
   
@@ -46,13 +46,13 @@ const List = ({ list, hasMore, query }: SpeciesListProps) => {
       </Typography>
 
       <Grid container spacing={2}>
-        {species.map((specie: ISpecieWithId) => (
+        {species.map((specie: ISpecieCustom) => (
           <SpecieItem specie={specie} key={specie.name} />
         ))}
       </Grid>
 
       {hasNext && (
-        <Box ref={ref} mt={2}>
+        <Box ref={ref} mt={2} textAlign="center">
           Loading...
         </Box>
       )}

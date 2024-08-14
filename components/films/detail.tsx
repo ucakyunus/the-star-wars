@@ -1,13 +1,11 @@
 import { memo } from "react";
-import Link from "next/link";
 import Image from "next/image";
-import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 
-import Card from "@/components/ui/card";
+import DetailCard from "@/components/ui/cards/detail-card";
 import AvatarList from "@/components/ui/avatar-list";
 import { formatDate } from "@/utils/helper";
 import { IFilmDetail } from "@/types/film";
@@ -17,9 +15,8 @@ interface FilmDetailProps {
 }
 
 const Detail = ({ film }: FilmDetailProps) => {
-  console.log('film.characters', film.characters);
   return (
-    <Card title={film.title} sx={{ width: '100%', mb: 5 }}>
+    <DetailCard title={film.title} sx={{ width: '100%', mb: 5 }}>
       <Stack spacing={2} direction={{ xs: "column", sm: 'row' }}>
         <Box position={"relative"} width={{ xs: '100%', sm: 260 }} height={350} sx={{ borderRadius: 3, overflow: 'hidden' }}>
           <Image src={film.imageUrl} alt={film.title} fill priority quality={100} />
@@ -98,7 +95,7 @@ const Detail = ({ film }: FilmDetailProps) => {
           <AvatarList list={film.species} href={'/species'} title={'Species'} />
         </>
       )}
-    </Card>
+    </DetailCard>
   )
 }
 

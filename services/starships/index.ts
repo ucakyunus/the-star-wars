@@ -4,7 +4,7 @@ import { getFilmsByUrls } from "@/services/films";
 import { getPeopleByUrls } from "@/services/people";
 import { fetchData } from "@/utils/api";
 
-import type { IStarship, IStarshipDetail, IStarshipResponse, IStarshipWithId } from "@/types/starship";
+import type { IStarship, IStarshipDetail, IStarshipResponse, IStarshipCustom } from "@/types/starship";
 
 
 export const getStarships = async ({ page = 1, query }: { page: number, query?: string }) => {
@@ -19,8 +19,9 @@ export const getStarships = async ({ page = 1, query }: { page: number, query?: 
     
     const results = data.results.map((starship: IStarship) => ({
       ...starship,
-      id: getId(starship.url)
-    })) as IStarshipWithId[]
+      id: getId(starship.url),
+      imageUrl: getStarshipPicture(getId(starship.url))
+    })) as IStarshipCustom[]
     
     return { ...data, results }
   } catch (err) {

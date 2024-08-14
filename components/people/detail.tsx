@@ -5,7 +5,7 @@ import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 
-import Card from "@/components/ui/card";
+import DetailCard from "@/components/ui/cards/detail-card";
 import { toTitleCase } from "@/utils/helper";
 
 import { IPersonDetail } from "@/types/people";
@@ -16,7 +16,7 @@ interface PeopleDetailProps {
 
 const Detail = ({ person }: PeopleDetailProps) => {
   return (
-    <Card title={person.name} sx={{ width: '100%', mb: 5 }}>
+    <DetailCard title={person.name} sx={{ width: '100%', mb: 5 }}>
       <Box display={"flex"} flexDirection={"column"} gap={0.5}>
         <Typography fontWeight={"bolder"} textTransform={"uppercase"}>Birth Year</Typography>
         <Typography>{person.birth_year}</Typography>
@@ -122,7 +122,7 @@ const Detail = ({ person }: PeopleDetailProps) => {
           ))}
         </>
       )}
-    </Card>
+    </DetailCard>
   )
 }
 

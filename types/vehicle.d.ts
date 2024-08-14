@@ -20,8 +20,9 @@ export interface IVehicle {
   vehicle_class: string;
 }
 
-export interface IVehicleWithId extends IVehicle {
+export interface IVehicleCustom extends IVehicle {
   id: string;
+  imageUrl: string;
 }
 
 export interface IVehicleResponse {
